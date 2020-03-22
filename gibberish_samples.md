@@ -1,18 +1,18 @@
-Enullii Hardukaukan      Akene Arhuisuralo        Kelo Olvunsovus          Yrpunun Uoprakukkis      
-Otas Oscummikun          Kuhtaa Uusudmano         Aruholo Enihtilen        Onsatos Kogahunnipe      
-Uppiis Luhlapupe         Voinypi Teraumante       Aita Emmiviiho           Nonsepa Muuspeten        
-Punoite Ihteduus         Ekselve Motikka          Moriha Ohenes            Asome Piihapsi           
-Edehto Tedmilan          Ahtore Hiilvatu          Rammii Uspooruloro       Valmiki Amdutono         
-Akkome Nelvunootin       Pukkun Ulvitaas          Kumima Ivule Uuproko     Ikris Olo Aihinon        
-Meivu Luhoneehi          Duihli Uplonlotes        Lokkise Itsovaacas       Kirtin Ajothohi          
-Lolis Aisikruka          Odon Vinokera            Oimmati Anpiipulo        Patetru Ikkohii          
-Suclon Mapraluin         Ehte Tupikooni           Alsile Aikrohen          Opsoko Nokusora          
-Tikamqa Uroron           Ogpigu Assopas           Tiis Sisputosis          Rusii Noiqlanupos        
-Auplige Eepletu          Oilu Epeliiplas          Hoohli Atmoosatari       Reekos Utaipurko         
-Linsos Eloljimoila       Leyhe Askosewlahu        Sehin Pikartii           Pala Rilpihasoin         
-Roopina Nopsuzo          Lanise Ovemmubi          Uudris Neetlesu          Sobe Vuduhloos           
-Upreni Atvoxoivave       Jini Pimmehati           Jebu Vuitlekopu          Etmun On Vopohis         
-Arjupo Jammorese         Edmorto Elmomqagoo       Epunte Matvoku           Enan Essorales           
+Enullii Hardukaukan, Akene Arhuisuralo, Kelo Olvunsovus, Yrpunun Uoprakukkis, 
+Otas Oscummikun, Kuhtaa Uusudmano, Aruholo Enihtilen, Onsatos Kogahunnipe, 
+Uppiis Luhlapupe, Voinypi Teraumante, Aita Emmiviiho, Nonsepa Muuspeten, 
+Punoite Ihteduus, Ekselve Motikka, Moriha Ohenes, , Asome Piihapsi, 
+Edehto Tedmilan, Ahtore Hiilvatu, Rammii Uspooruloro, Valmiki Amdutono, 
+Akkome Nelvunootin, Pukkun Ulvitaas, Kumima Ivule Uuproko Ikris Olo Aihinon, 
+Meivu Luhoneehi, Duihli Uplonlotes, Lokkise Itsovaacas, Kirtin Ajothohi, 
+Lolis Aisikruka, Odon Vinokera, , Oimmati Anpiipulo, Patetru Ikkohii, 
+Suclon Mapraluin, Ehte Tupikooni, Alsile Aikrohen, Opsoko Nokusora, 
+Tikamqa Uroron, Ogpigu Assopas, Tiis Sisputosis, Rusii Noiqlanupos, 
+Auplige Eepletu, Oilu Epeliiplas, Hoohli Atmoosatari, Reekos Utaipurko, 
+Linsos Eloljimoila, Leyhe Askosewlahu, Sehin Pikartii, Pala Rilpihasoin, 
+Roopina Nopsuzo, Lanise Ovemmubi, Uudris Neetlesu, Sobe Vuduhloos, 
+Upreni Atvoxoivave, Jini Pimmehati, Jebu Vuitlekopu, Etmun On Vopohis, 
+Arjupo Jammorese, Edmorto Elmomqagoo, Epunte Matvoku, Enan Essorales, 
 
 Repeating words: loo, rei, tii.
 
