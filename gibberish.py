@@ -176,6 +176,7 @@ for repeating in range(3):
 print('Repeating words: '+', '.join(rep)+'.\n')
 text = ''
 capitalize = True
+nameGend = False # name generated
 for sentence in range(20):
 	repd = True # no repeating words as the first word
 	# one sentence
@@ -184,10 +185,17 @@ for sentence in range(20):
 	for word in range(wordCount):
 		if word == wordCount-1: repd = True # no repeating words as the last word
 		repdToFalse = True
+		nameGendToFalse = True
 		addText = ''
 		chooser = random.random()
-		if chooser < .02: addText = gibberName()
-		elif chooser < .04: addText = gibberish(consVocals(4,7,5)).title()
+		if chooser < .02:
+			addText = gibberName()
+			nameGend = True
+			nameGendToFalse = False
+		elif chooser < .04:
+			addText = gibberish(consVocals(4,7,5)).title()
+			nameGend = True
+			nameGendToFalse = False
 		elif chooser < .34 and not repd:
 			addText = r(rep)
 			repd = True
@@ -198,6 +206,7 @@ for sentence in range(20):
 			capitalize = False
 		text += addText
 		if repdToFalse: repd = False
+		if nameGendToFalse: nameGend = False
 
 		# add a space or a comma between words unless at last word of sentence.
 		if word != wordCount-1:
