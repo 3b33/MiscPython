@@ -149,7 +149,6 @@ def gibberName():
 names = []
 for g in range(60):
 	names.append(gibberName())
-	names[-1] = names[-1].ljust(23, ' ') # https://thispointer.com/python-how-to-pad-strings-with-zero-space-or-some-other-character/
 
 #for n in names:
 	#print(n+'\n\n')
@@ -157,37 +156,55 @@ for g in range(60):
 print()
 
 # print names
-for i in range(0,len(names),5):
-	if i < len(names)-5:
-		print('%s\t%s\t%s\t%s\t%s' % (names[i], names[i+1], names[i+2], names[i+3], names[i+4]))
+nameCols = 4
+for nameIndex in range(0,len(names)-(len(names)%nameCols),nameCols):
+	nameRow = ''
+	for nameColIndex in range(nameCols):
+		nameRow += names[nameIndex+nameColIndex].ljust(25, ' ')
+	print(nameRow)
 
 print()
 
 # print some gibberish sentences
+
+# create some short words to repeat later
+rep = []
+for repeating in range(3):
+	rep.append(gibberish(consVocals(2,3,2)))
+# rep = ['###']
+
+print('Repeating words: '+', '.join(rep)+'.\n')
 text = ''
 capitalize = True
 for sentence in range(20):
-
+	repd = True # no repeating words as the first word
 	# one sentence
 	wordCount = random.randint(3,10)
 	if wordCount > 7: wordCount = random.randint(3,10)
 	for word in range(wordCount):
+		if word == wordCount-1: repd = True # no repeating words as the last word
+		repdToFalse = True
 		addText = ''
-		if random.random() < .95:
-			addText = gibberish(consVocals(2,10,5))
-			if capitalize:
-				addText = addText.title()
-				capitalize = False
-		else:
-			if random.random() < .5: addText = gibberName()
-			else: addText = gibberName().split(' ')[0]
+		chooser = random.random()
+		if chooser < .02: addText = gibberName()
+		elif chooser < .04: addText = gibberish(consVocals(4,7,5)).title()
+		elif chooser < .34 and not repd:
+			addText = r(rep)
+			repd = True
+			repdToFalse = False
+		else: addText = gibberish(consVocals(3,10,5))
+		if capitalize:
+			addText = addText.title()
+			capitalize = False
 		text += addText
+		if repdToFalse: repd = False
 
 		# add a space or a comma between words unless at last word of sentence.
 		if word != wordCount-1:
-			if random.random() < 0.8:
-				text += ' '
-			else: text += ', '
+			if random.random() < 0.9 or repd == True or word == wordCount-1: text += ' '
+			else:
+				text += ', '
+				repd = True # no repeating words after a comma
 
 	# ending of the sentence
 	#while text[-1] == ' ' or text[-1] == ',': text = text[:-1]
