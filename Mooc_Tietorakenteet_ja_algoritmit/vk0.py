@@ -3,6 +3,8 @@
 '''
 
 import math
+import time
+
 
 print('\n')
 
@@ -20,5 +22,8 @@ print('\n')
 for f in functions:
     results = []
     print('\n'+f.__name__)
-    for test in tests: results.append(f(test))
-    print(results) # 
+    for test in tests:
+        startTime = time.time()
+        results.append(f(test))
+        print('%ss\n' % round(time.time()-startTime,4))
+    print(results) #
