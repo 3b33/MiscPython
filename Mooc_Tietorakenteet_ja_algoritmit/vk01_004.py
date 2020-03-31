@@ -21,12 +21,15 @@ System.out.println(t.laske(new int[] {4,2,9,1,9,2,5})); // 323
 import math
 
 print('\n')
+functions = []
 
 debug = 0
 
 tests = [[1,2,3,2],[5],[4,2,9,1,9,2,5]]
 if debug: tests = [tests[0]]
 
+
+# standard custom function
 def twoSum(l):
     while len(l) > 1:
         if debug: print(l)
@@ -34,7 +37,19 @@ def twoSum(l):
             l[i] += l[i+1]
         l.pop(-1)
     return l[0]
+functions.append(charSum)
 
+
+# googled zip method
+'''
+def twoSumZ(n):
+    new = [int(x) for x in str(n)]
+    while len(new) > 1:
+        z = zip(new[:-1],new[1:])
+        new = sum(z)
+    return new[0]
+functions.append(charSumZ)
+'''
 
 results = []
 for test in tests: results.append(twoSum(test))

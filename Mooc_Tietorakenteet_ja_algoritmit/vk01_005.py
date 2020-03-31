@@ -18,6 +18,14 @@ for (int i = 0; i < n; i++) {
     }
     System.out.println();
 }
+
+Koodin tulostuksen tulisi olla seuraava:
+
+0 1 2 3 4
+1 0 3 2 5
+2 3 0 1 6
+3 2 1 0 7
+4 5 6 7 0
 '''
 
 import math
@@ -27,25 +35,30 @@ print('\n')
 debug = 0
 
 tests = [5]
-if debug: tests = tests[0]
+if debug: tests = [tests[0]]
 
-# arf I misread the assignment. The whole row and column should be considered.
+
 def maxIntGrid(n):
     grid = []
     for y in range(n):
         grid.append([])
+        if debug: print(grid)
         for x in range(n):
-            left = grid[y][x-1] if x > 0 else -1
-            up = grid[y-1][x] if y > 0 else -1
-            corner = grid[y-1][x-1] if x > 0 and y > 0 else -1
+            col = []
+            if y > 0:
+                if debug: print(x,y)
+                for row in grid[:-1]: col.append(row[x])
             new = 0
-            while new in [left,up,corner]: new += 1
+            while new in (grid[y] + col): new += 1
             grid[y].append(new)
     return grid
 
-def printGrid(g):
-    for y in g: print(y)
+
+def printList(g):
+    for y in g: print(*y)
+
 
 print('\n')
 for test in tests:
-    printGrid(maxIntGrid(test))
+    printList(maxIntGrid(test))
+print('\n')
