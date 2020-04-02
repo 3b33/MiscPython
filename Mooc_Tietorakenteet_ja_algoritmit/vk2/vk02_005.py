@@ -8,7 +8,7 @@ Tee luokka Kierrokset, jossa on seuraavat metodit:
 int laske(int[] t): palauttaa kierrosten määrän
 Rajat:
 
-1 ≤ n ≤ 106
+1 ≤ n ≤ 10**6
 Seuraava koodi esittelee luokan käyttämistä:
 
 [4,1,3,2,5] // 3
@@ -30,17 +30,39 @@ tests = [\
     [1,2,3,4,5],\
     [5,4,3,2,1]]
 
-randomList = [x for x in range(1,10**4+1)]
-random.shuffle(randomList)
+randomList = [x+1 for x in range(10**6)] # not random yet
+random.shuffle(randomList) # here it goes
 tests.append(randomList)
 
-if debug: tests = [tests[0]]
+if debug: tests = [tests[1]]
 functions = []
 
 
-# v1
+# method 3: I don't really undestand why this is so much faster than method 2.
+def loopSortCount3(l):
+    found = {x+1:0 for x in range(len(l))}
+    for n in l:
+        found[n] = 1
+        found[n-1] = 0
+    return sum(found.values())
+functions.append(loopSortCount3)
+
+
+# method 2: Still way too slow. Why is this not O(n)?
+def loopSortCount2(l):
+    found = []
+    c = 0 # count
+    for n in l:
+        if n-1 not in found:
+            if debug: print(n, found)
+            c += 1
+        found.append(n)
+    return c
+# functions.append(loopSortCount2)
+
+
+# method 1
 def loopSortCountSlow(l):
-    #s = [] # sorted list
     g = [x+1 for x in range(len(l))] # goal list
     c = 0 # count of loops
     while g != []:
@@ -51,7 +73,8 @@ def loopSortCountSlow(l):
                 if g == []: break
         c += 1
     return c
-functions.append(loopSortCountSlow)
+#functions.append(loopSortCountSlow)
+
 
 # tests
 print('\nresults')
@@ -69,7 +92,7 @@ for f in functions:
 '''
 results
 
-function: sortLoopCountSlow
+function: loopSortCount3
 
 input: [4, 1, 3, 2, 5]
 3
@@ -83,7 +106,53 @@ input: [5, 4, 3, 2, 1]
 5
 0.0s
 
-input list length: 10000
+input list length: 10**6
+first five values: [619703, 277151, 1134, 379796, 360489]
+499970
+0.7927s
+
+
+function: loopSortCount2
+
+input: [4, 1, 3, 2, 5]
+3
+0.0s
+
+input: [1, 2, 3, 4, 5]
+1
+0.0s
+
+input: [5, 4, 3, 2, 1]
+5
+0.0s
+
+input list length: 10**4
+first five values: [8710, 8574, 3062, 7880, 5677]
+5011
+0.6195s
+
+input list length: 10**5
+first five values: [63230, 7872, 74588, 59446, 71382]
+50070
+79.9795s
+
+
+
+function: loopSortCountSlow
+
+input: [4, 1, 3, 2, 5]
+3
+0.0001s
+
+input: [1, 2, 3, 4, 5]
+1
+0.0s
+
+input: [5, 4, 3, 2, 1]
+5
+0.0s
+
+input list length: 10**4
 first five values: [8710, 8574, 3062, 7880, 5677]
 5011
 2.663s
