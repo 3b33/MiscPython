@@ -26,18 +26,18 @@ random.seed(1)
 
 print('\n')
 
-debug = 0
+debug = 1
 
 tests = [\
     [1,2,1,3,2],\
     [1,1,1,1,1],\
     [1,2,3,4,5]]#,\
     #[random.randint(1,106) for x in range(10**2)]]
-if debug: tests = [tests[0]]
+if debug: tests = [tests[2]]
 functions = []
 
 # method 2.
-# go through list, slice to groups with max 2 unique numbers, then use tri on their lengths.
+# go through list, slice to groups with max 2 unique numbers, then use tri on their lengths. Can I skip temp slice lists?
 def tri(n):
     s = 0
     while n > 0:
@@ -45,19 +45,22 @@ def tri(n):
         n -= 1
     return s
 
-def twoSameValueSlicesCount(l):
-    splits = []
-    c = 0 # count
+def twoUniqueSliceCount(l):
+    split = [l[0]]
+    tsc = 0 # tri sum count
     # split when same values detected
-    s = 0 # current split
     for i in range(1,len(l)):
-        if l[i] == l[i-1]:
-            splits.append([l[s:i]])
-            s = i
-    print(splits)
-    return sum([tri(len(x)) for x in splits])
+        if len(set(split)) > 2:
+            tsc += tri(len(split))-1
+            if debug: print(split,tsc)
+            split = []
+        split.append(l[i])
+    tsc += tri(len(split))-1
+    if debug: print('end', split,tsc)
+    #print(splits)
+    return tsc+1
 
-functions.append(twoSameValueSlicesCount)
+functions.append(twoUniqueSliceCount)
 
 
 '''
