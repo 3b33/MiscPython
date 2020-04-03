@@ -18,6 +18,10 @@ Alitaulukot a = new Alitaulukot();
 [1,2,3,4,5] // 9
 '''
 
+# try out the debug mode here.
+
+# 1M list values result in 1.9s, I'm gonna call it good enough.
+
 import math
 import time
 import random
@@ -26,15 +30,16 @@ random.seed(1)
 
 print('\n')
 
-debug = 1
+debug = 0
 
 tests = [\
     [1,2,1,3,2],\
     [1,1,1,1,1],\
-    [1,2,3,4,5]]#,\
-    #[random.randint(1,106) for x in range(10**2)]]
-if debug: tests = [tests[2]]
+    [1,2,3,4,5],\
+    [random.randint(1,106) for x in range(10**6)]]
+if debug: tests = tests[:2]
 functions = []
+
 
 # method 2.
 # go through list, slice to groups with max 2 unique numbers, then use tri on their lengths. Can I skip temp slice lists?
@@ -49,12 +54,16 @@ def twoUniqueSliceCount(l):
     split = [l[0]]
     tsc = 0 # tri sum count
     # split when same values detected
-    for i in range(1,len(l)):
-        if len(set(split)) > 2:
-            tsc += tri(len(split))-1
+    i = 1
+    while i <= len(l):
+        if len(set(split)) == 3:
+            tsc += tri(len(split)-1)-1
             if debug: print(split,tsc)
-            split = []
-        split.append(l[i])
+            split = [split[-2]]
+            i -= 1
+        if debug: print(i, split,tsc)
+        if i < len(l): split.append(l[i])
+        i += 1
     tsc += tri(len(split))-1
     if debug: print('end', split,tsc)
     #print(splits)
@@ -99,3 +108,28 @@ for f in functions:
         startTime = time.time()
         print(f(test))
         print('%ss\n' % round(time.time()-startTime,4))
+
+
+'''
+results
+
+function: twoUniqueSliceCount
+
+input: [1, 2, 1, 3, 2]
+10
+0.0s
+
+input: [1, 1, 1, 1, 1]
+15
+0.0s
+
+input: [1, 2, 3, 4, 5]
+9
+0.0s
+
+input list length: 10**6
+first two values: [18, 73]
+2019172
+1.8971s
+
+'''

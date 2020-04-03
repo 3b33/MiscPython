@@ -7,7 +7,7 @@ Tee luokka Onnenluvut, jossa on seuraavat metodit:
 int laske(int a, int b): palauttaa onnenlukujen määrän välillä a...b
 Rajat:
 
-1 ≤ a ≤ b ≤ 109
+1 ≤ a ≤ b ≤ 10**9
 Seuraava koodi esittelee luokan käyttämistä:
 
 Onnenluvut o = new Onnenluvut();
@@ -20,18 +20,20 @@ Huomaa, että tehtävän aikaraja on yksi sekunti, joten olisi liian hidasta kä
 
 import math
 import time
+import random
+random.seed(1)
 
 
 print('\n')
 
 debug = 0
 
-tests = [[1,10],[123,321],[1,1000000]]
+tests = [[1,10],[123,321],[1,1000000],[1,10**9]]
 if debug: tests = tests[:-1]
 functions = []
 
 
-# for fun, I want to see how long it takes to iterate through all the given test numbers.
+# for fun, slow simple version
 def luckyNumbersSlow(a,b):
     c = 0 # count
     for n in range(a,b+1):
@@ -42,8 +44,7 @@ def luckyNumbersSlow(a,b):
             isLucky = True
         if isLucky: c += 1
     return c
-functions.append(luckyNumbersSlow)
-# this runs in half a second... should I still try to optimize somehow? Was the 'break' enough of an optimization?
+#functions.append(luckyNumbersSlow)
 
 
 # itertools version. 'combinations_with_replacement' did not consider repeating values, switched to 'product' instead.
@@ -65,7 +66,6 @@ def luckyNumbersI(a,b):
     except: pass
     return len(luckies)
 functions.append(luckyNumbersI)
-# OK FINE 0.00029s is lower than 0.5s. Should I bother doing this without itertools? Nah. Done that bunch of times before.
 
 print('\n')
 for f in functions:
@@ -75,3 +75,25 @@ for f in functions:
         print('input:', test[0], test[1])
         print(f(test[0],test[1]))
         print('%ss\n' % round(time.time()-startTime,4))
+
+'''
+results
+
+function: luckyNumbersI
+
+input: 1 10
+2
+0.0001s
+
+input: 123 321
+0
+0.0001s
+
+input: 1 1000000
+126
+0.0005s
+
+input: 1 1000000000
+1022
+0.0018s
+'''
