@@ -29,12 +29,13 @@ Koodin tulostuksen tulisi olla seuraava:
 '''
 
 import math
+import time
 
 print('\n')
 
 debug = 0
 
-tests = [5]
+tests = [5,50]
 if debug: tests = [tests[0]]
 
 
@@ -60,5 +61,7 @@ def printList(g):
 
 print('\n')
 for test in tests:
+    startTime = time.time()
     printList(maxIntGrid(test))
+    print('%ss\n' % round(time.time()-startTime,4))
 print('\n')

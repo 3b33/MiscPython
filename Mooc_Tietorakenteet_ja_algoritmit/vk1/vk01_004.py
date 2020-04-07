@@ -19,13 +19,15 @@ System.out.println(t.laske(new int[] {4,2,9,1,9,2,5})); // 323
 '''
 
 import math
+from random import randint
+import time
 
 print('\n')
 functions = []
 
 debug = 0
 
-tests = [[1,2,3,2],[5],[4,2,9,1,9,2,5]]
+tests = [[1,2,3,2],[5],[4,2,9,1,9,2,5],[randint(1,100) for x in range(20)]]
 if debug: tests = [tests[0]]
 
 
@@ -37,7 +39,7 @@ def twoSum(l):
             l[i] += l[i+1]
         l.pop(-1)
     return l[0]
-functions.append(charSum)
+functions.append(twoSum)
 
 
 # googled zip method
@@ -52,6 +54,8 @@ functions.append(charSumZ)
 '''
 
 results = []
-for test in tests: results.append(twoSum(test))
-print(results) # 3, 0, 768
+for test in tests:
+    startTime = time.time()
+    print(twoSum(test))
+    print('%ss\n' % round(time.time()-startTime,4))
 print('\n')
