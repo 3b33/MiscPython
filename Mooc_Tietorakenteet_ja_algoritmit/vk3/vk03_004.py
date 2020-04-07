@@ -12,7 +12,7 @@ random.seed(1)
 
 print('\n')
 
-debug = 0
+debug = 1
 
 tests = [\
     [x for x in range(5)],\
@@ -23,7 +23,44 @@ if debug: tests = tests[:1]
 functions = []
 
 
-# school book quick sort version
+# merge sort, lomitusjarjestaminen
+
+def splits(l):
+    i = math.floor(len(l)/2)
+    if len(l) > 2: return [splits(l[:i]), splits(l[i:])]
+    elif len(l) == 2: return [l[0], l[1]]
+    else: return [l[0]]
+
+def combineSort(l1,l2):
+    l = []
+    while l1 != [] and l2 != []:
+        if l1[0] < l2[0]:
+            l.append(l1[0])
+            l1.pop(0)
+        elif l1[0] > l2[0]:
+            l.append(l2[0])
+            l2.pop(0)
+        else:
+            l.append(l1[0],l2[0])
+            l1.pop(0)
+            l2.pop(0)
+    if l1 != []: l += l1
+    if l2 != []: l += l2
+    return l
+
+def deepCombine(l):
+    if type(l[0]) is list:
+        return [deepCombine(l[0]), deepCombine(l[1])]
+    elif len(l) == 2: return combineSort([l[0]], [l[1]])
+    else: return [l[0]]
+
+def mergeSort(l):
+    return deepCombine(splits(l))
+
+functions.append(mergeSort)
+
+
+# school book quick sort version, banned
 '''
 procedure jarjesta(a, b)
     if a >= b
@@ -75,6 +112,19 @@ def quickSort(l):
 
 # just for fun, bruteforce
 def twoSort(l):
+    switched = True
+    while switched == True:
+        switched = False
+        for i in range(1,len(l)):
+            if l[i] < l[i-1]:
+                l[i], l[i-1] = l[i-1], l[i]
+                switched = True
+        if debug: print(l[:5])
+    return l
+#functions.append(twoSort)
+
+''' # even slower version
+def twoSort(l):
     s = [0 for x in range(len(l))] # 0 = check, 1 = skip
     while 0 in s[1:]:
         for i in range(1,len(l)):
@@ -87,6 +137,7 @@ def twoSort(l):
             if 0 not in s[1:]: break
     return l
 functions.append(twoSort)
+'''
 
 # python sorted()
 def pythonSorted(l):
