@@ -15,8 +15,10 @@ print('\n')
 debug = 0
 
 tests = [\
+    [x for x in range(5)],\
     [random.randint(1,10**6) for x in range(10**4)],\
     [random.randint(1,10**6) for x in range(10**6)]]
+random.shuffle(tests[0])
 if debug: tests = tests[:1]
 functions = []
 
@@ -48,38 +50,13 @@ function jako(a,b):
 '''
 
 
-# modified quick sort
-#sys.setrecursionlimit(10**2)
+# quick sort is slow ??
+#sys.setrecursionlimit(10**6)
 def quickSort(l):
     if len(l) > 2:
-        ''' # first try in modifying quick sort - banned
-        if len(l) > 1000: sampleCount = 5 # would be 1 in basic quick sort
-        elif len(l) > 10: sampleCount = 3
-        sampleCount = 1
-        samples = []
-        for s in range(sampleCount):
-            samples.append(l[s])
-        sample = samples[0]
-        if len(samples) > 1:
-            sortedSamples = quickSort(samples)
-            sampleIndex = math.floor(len(samples)/2)
-            sample = l[sampleIndex]
-            l.pop(sampleIndex)
-        else: l.pop(0)
-        '''
         if debug: print('samples', samples)
         left = []
         right = []
-        ''' # second try in mod - was even slower :(
-        if len(l) > 6:
-            samples = [l[0],l[1],l[-1]]
-            if samples[1] == max(samples): sampleIndex = 1
-            elif samples[2] == max(samples): sampleIndex = -1
-            else: sampleIndex = 0
-        else: sampleIndex = 0
-        sample = l[sampleIndex]
-        if sampleIndex == -1: sampleIndex = len(l)-1
-        '''
         sampleIndex = 0
         sample = l[0]
         for n in l[1:]:
@@ -93,26 +70,28 @@ def quickSort(l):
         if l[0] < l[1]: return l
         else: return [l[1],l[0]]
     else: return l
-functions.append(quickSort)
+#functions.append(quickSort)
 
 
 # just for fun, bruteforce
 def twoSort(l):
-    switched = True
-    while switched == True:
-        switched = False
+    s = [0 for x in range(len(l))] # 0 = check, 1 = skip
+    while 0 in s[1:]:
         for i in range(1,len(l)):
-            if l[i] < l[i-1]:
-                l[i], l[i-1] = l[i-1], l[i]
-                switched = True
-        if debug: print(l[:5])
+            if s[i] == 0:
+                if l[i] < l[i-1]:
+                    l[i], l[i-1] = l[i-1], l[i]
+                    s[i] = s[i-1] = 0
+                else: s[i] = 1
+            if debug: print('%s\n%s\n' % (l[:6],s[:6]))
+            if 0 not in s[1:]: break
     return l
-#functions.append(twoSort)
+functions.append(twoSort)
 
 # python sorted()
 def pythonSorted(l):
     return sorted(l)
-functions.append(pythonSorted)
+#functions.append(pythonSorted)
 
 
 # tests
