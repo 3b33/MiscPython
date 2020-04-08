@@ -12,10 +12,10 @@ random.seed(1)
 
 print('\n')
 
-debug = 1
+debug = 0
 
 tests = [\
-    [x for x in range(5)],\
+    [random.randint(1,9) for x in range(6)],\
     [random.randint(1,10**6) for x in range(10**4)],\
     [random.randint(1,10**6) for x in range(10**6)]]
 random.shuffle(tests[0])
@@ -27,12 +27,17 @@ functions = []
 
 def splits(l):
     i = math.floor(len(l)/2)
-    if len(l) > 2: return [splits(l[:i]), splits(l[i:])]
-    elif len(l) == 2: return [l[0], l[1]]
+    if len(l) >= 2: return [splits(l[:i]), splits(l[i:])]
+    #elif len(l) == 2: return [l[0], l[1]]
     else: return [l[0]]
 
 def combineSort(l1,l2):
     l = []
+    #if type(l1) is not list: l1 = [l1]
+    #if type(l2) is not list: l2 = [l2]
+    # these next two lines even needed? (no big speed difference on a 10**4 table)
+    if l1[-1] <= l2[0]: return l1+l2
+    if l2[-1] <= l1[0]: return l2+l1
     while l1 != [] and l2 != []:
         if l1[0] < l2[0]:
             l.append(l1[0])
@@ -41,7 +46,8 @@ def combineSort(l1,l2):
             l.append(l2[0])
             l2.pop(0)
         else:
-            l.append(l1[0],l2[0])
+            l.append(l1[0])
+            l.append(l2[0])
             l1.pop(0)
             l2.pop(0)
     if l1 != []: l += l1
@@ -49,14 +55,18 @@ def combineSort(l1,l2):
     return l
 
 def deepCombine(l):
-    if type(l[0]) is list:
-        return [deepCombine(l[0]), deepCombine(l[1])]
-    elif len(l) == 2: return combineSort([l[0]], [l[1]])
-    else: return [l[0]]
+    h1 = l[0]
+    h2 = l[1]
+    while type(h1[0]) is list: h1 = deepCombine(h1)
+    while type(h2[0]) is list: h2 = deepCombine(h2)
+    cs =  combineSort(h1, h2)
+    if debug: print('csort:',cs)
+    return cs
 
 def mergeSort(l):
-    return deepCombine(splits(l))
-
+    spl = splits(l)
+    if debug: print ('splits: %s' % spl)
+    return deepCombine(spl)
 functions.append(mergeSort)
 
 
@@ -141,7 +151,7 @@ functions.append(twoSort)
 
 # python sorted()
 def pythonSorted(l):
-    return sorted(l)
+    return l.sort()
 #functions.append(pythonSorted)
 
 
@@ -171,6 +181,18 @@ for f in functions:
 
 '''
 results
+
+
+function: mergeSort
+
+input list length: 10**4
+first two values: [495186, 683245]
+0.125s
+first values from sorted list:
+ [233, 353, 518]
+last values from sorted list:
+ [999702, 999703, 999720]
+
 
 function: quickSort
 
