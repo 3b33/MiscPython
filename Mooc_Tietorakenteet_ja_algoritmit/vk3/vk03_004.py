@@ -27,8 +27,10 @@ functions = []
 
 def splits(l):
     i = math.floor(len(l)/2)
-    if len(l) >= 2: return [splits(l[:i]), splits(l[i:])]
-    #elif len(l) == 2: return [l[0], l[1]]
+    if len(l) > 2: return [splits(l[:i]), splits(l[i:])]
+    elif len(l) == 2:
+        if l[0] <= l[1]: return [l[0], l[1]]
+        else: return [l[1], l[0]]
     else: return [l[0]]
 
 def combineSort(l1,l2):
@@ -207,7 +209,7 @@ last values from sorted list:
 
 input list length: 10**6
 first two values: [821686, 788396]
-5.1027s
+5.1027s # MEH, mergeSort.py takes 8.6s so I'll consider this good enough.
 first values from sorted list:
  [2, 3, 3]
 last values from sorted list:

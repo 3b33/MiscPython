@@ -16,7 +16,7 @@ tests = [\
     [0],\
     [0]]#,\
     #[random.randint(1,9) for x in range(10**2)]]
-if debug: tests = [tests[0]]
+if debug: tests = tests[:1]
 functions = []
 
 
