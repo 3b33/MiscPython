@@ -22,14 +22,16 @@ random.seed(1)
 
 print('\n')
 
-debug = 1
+debug = 0
 
 tests = []
 tests.append([5,2])
 tests.append([5,7])
+tests.append([5,9])
 tests.append([5,10])
-#tests.append([random.randint(1,9) for x in range(10**4), 10**3])
-if debug: tests = tests[:3]
+tests.append([10**6, 10**3])
+tests.append([10**6, 10**6+10**3])
+if debug: tests = tests[:4]
 functions = []
 
 
@@ -38,25 +40,22 @@ def listWithInversions(n,k=1):
     if k > (n**2-n)/2:
         Exception('Inversion count %s is too big for list size %s' % (k,n))
         quit()
-    n2 = n-1
-    k2 = k
-    sc = 0 # first of ordered numbers.
-    if k > 0: sc = 1
-    while k2-n2 > 0:
-        if debug: print('k2:', k2,'n2:',n2, 'sc:', sc)
-        sc += 1
-        k2 -= n2
-        if n2 > 0: n2 -= 1
-    k2 = math.ceil(k2)
-    if debug: print('k2:', k2,'n2:',n2, 'sc:', sc)
-    l = [x for x in range(sc,n)]
-    if k > 0:
+    m = 1 # modified number count
+    if k == 0: return [x for x in range(n)]
+    elif k == (n**2-n)/2: return [x for x in range(n,0,-1)] # n+1?
+    else:
+        if debug: print(f'm: {m}')
+        while k > m*n-((m*m+m)/2)+1:
+            if debug: print(f'while {k} > {m*n-((m*m+m)/2)+1}')
+            m += 1
+            if debug: print(f'm: {m}')
+        if debug: print(f'while end {k} > {m*n-((m*m+m)/2)+1}')
+        l = [x for x in range(m,n)]
         if debug: print('l:', l)
-        move = [x for x in range(sc)]
+        move = [x for x in range(m)]
         if debug: print('move:', move)
-        l = l[:k2] + move[-1:] + l[k2:]
-        #l += move[:-1]
-        if sc > 1: l += move[::-1][-1:]
+        l = l[:m+1] + move[-1:] + l[m+1:]
+        if m > 1: l += move[::-1][1:]
     return l
 
 functions.append(listWithInversions)
@@ -83,31 +82,51 @@ else: print('\nresults')
 for f in functions:
     print('\nfunction: '+f.__name__+'\n')
     for test in tests:
-        if len(test) < 10: print('input:', test)
+        if len(test) < 10: print('\ninput:', test)
         else:
-            print('input list length: '+ toPow(len(test)))
+            print('\ninput list length: '+ toPow(len(test)))
             print('first two values:',test[:2])
         startTime = time.time()
         sl = f(test[0],test[1])
         print('%ss' % round(time.time()-startTime,4))
-        if debug: print('resulting list:', sl)
+        if debug or test[0] < 10: print('resulting list:', sl)
         else:
             print('first values from resulting list:\n',sl[:5])
             print('last values from resultng list:\n',sl[-5:])
-        print('inversion count check:', countInversions(sl),'\n')
+        #print('inversion count check:', countInversions(sl),'\n')
 
 '''
-
-
-results with debug
+results
 
 function: listWithInversions
 
 input: [5, 2]
-l: [1, 2, 3, 4]
-move: [0]
 0.0s
-
 resulting list: [1, 2, 0, 3, 4]
-inversion count check: 2
+
+input: [5, 7]
+0.0s
+resulting list: [2, 3, 4, 1, 0]
+
+input: [5, 9]
+0.0s
+resulting list: [3, 4, 2, 1, 0]
+
+input: [5, 10]
+0.0s
+resulting list: [5, 4, 3, 2, 1]
+
+input: [1000000, 1000]
+0.0968s
+first values from resulting list:
+ [1, 2, 0, 3, 4]
+last values from resultng list:
+ [999995, 999996, 999997, 999998, 999999]
+
+input: [1000000, 1001000]
+0.1088s
+first values from resulting list:
+ [2, 3, 4, 1, 5]
+last values from resultng list:
+ [999996, 999997, 999998, 999999, 0]
 '''

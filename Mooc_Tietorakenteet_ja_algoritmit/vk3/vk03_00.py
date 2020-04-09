@@ -42,7 +42,7 @@ for f in functions:
     for test in tests:
         if len(test) < 10: print('input:', test)
         else:
-            print('input list length: '+ toPow(len(test)))
+            print('\ninput list length: '+ toPow(len(test)))
             print('first two values:',test[:2])
         startTime = time.time()
         print(f(test))
