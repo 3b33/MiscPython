@@ -11,11 +11,11 @@ print('\n')
 
 debug = 0
 
-tests = [\
-    [0],\
-    [0],\
-    [0]]#,\
-    #[random.randint(1,9) for x in range(10**2)]]
+tests = []
+test.append([0])
+test.append([0])
+test.append([0])
+#test.append([random.randint(1,9) for x in range(10**2)])
 if debug: tests = tests[:1]
 functions = []
 
@@ -35,7 +35,8 @@ def toPow(n):
         c += 1
     return str('10**'+str(c))
 
-print('\nresults')
+if debug: print('\nresults with debug')
+else: print('\nresults')
 for f in functions:
     print('\nfunction: '+f.__name__+'\n')
     for test in tests:

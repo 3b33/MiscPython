@@ -24,31 +24,39 @@ print('\n')
 
 debug = 1
 
-tests = [\
-    [5,2]]#,\
-    #[random.randint(1,9) for x in range(10**4), 10**3]]
-if debug: tests = tests[:1]
+tests = []
+tests.append([5,2])
+tests.append([5,7])
+tests.append([5,10])
+#tests.append([random.randint(1,9) for x in range(10**4), 10**3])
+if debug: tests = tests[:3]
 functions = []
 
 
 # method 1
 def listWithInversions(n,k=1):
-    if k > n**2:
+    if k > (n**2-n)/2:
         Exception('Inversion count %s is too big for list size %s' % (k,n))
         quit()
-    p = n
-    c = k
-    sc = 0 # start of concurrent numbers
-    while c/p >= 1:
+    n2 = n-1
+    k2 = k
+    sc = 0 # first of ordered numbers.
+    if k > 0: sc = 1
+    while k2-n2 > 0:
+        if debug: print('k2:', k2,'n2:',n2, 'sc:', sc)
         sc += 1
-        c /= p
-        p -= 1
-    l = [x+sc for x in range(sc,n)]
-    if debug: print('l:', l)
-    move = [x for x in range(sc)]
-    if debug: print('move:', move)
-    l + move[:-1]
-    l = l[:c] + move[-1] + l[c:]
+        k2 -= n2
+        if n2 > 0: n2 -= 1
+    k2 = math.ceil(k2)
+    if debug: print('k2:', k2,'n2:',n2, 'sc:', sc)
+    l = [x for x in range(sc,n)]
+    if k > 0:
+        if debug: print('l:', l)
+        move = [x for x in range(sc)]
+        if debug: print('move:', move)
+        l = l[:k2] + move[-1:] + l[k2:]
+        #l += move[:-1]
+        if sc > 1: l += move[::-1][-1:]
     return l
 
 functions.append(listWithInversions)
@@ -56,11 +64,10 @@ functions.append(listWithInversions)
 
 def countInversions(l):
     inversions = 0
-    for n1 in l[:-1]:
-        for n2 in l[n+1:]:
-            if n2 > n1: inversions += 1
+    for i1 in range(len(l[:-1])):
+        for i2 in range(i1+1,len(l)):
+            if l[i1] > l[i2]: inversions += 1
     return inversions
-functions.append(countInversions)
 
 
 # tests
@@ -71,7 +78,8 @@ def toPow(n):
         c += 1
     return str('10**'+str(c))
 
-print('\nresults')
+if debug: print('\nresults with debug')
+else: print('\nresults')
 for f in functions:
     print('\nfunction: '+f.__name__+'\n')
     for test in tests:
@@ -80,15 +88,26 @@ for f in functions:
             print('input list length: '+ toPow(len(test)))
             print('first two values:',test[:2])
         startTime = time.time()
-        il = (f(test[0],test[1]))
-        print('%ss\n' % round(time.time()-startTime,4))
-        print('inversion count check:', countInversions(il))
+        sl = f(test[0],test[1])
+        print('%ss' % round(time.time()-startTime,4))
         if debug: print('resulting list:', sl)
         else:
             print('first values from resulting list:\n',sl[:5])
             print('last values from resultng list:\n',sl[-5:])
+        print('inversion count check:', countInversions(sl),'\n')
 
 '''
 
 
+results with debug
+
+function: listWithInversions
+
+input: [5, 2]
+l: [1, 2, 3, 4]
+move: [0]
+0.0s
+
+resulting list: [1, 2, 0, 3, 4]
+inversion count check: 2
 '''
