@@ -22,38 +22,52 @@ random.seed(1)
 
 print('\n')
 
-debug = 0
+debug = 1
 
 tests = []
-tests.append([5,2])
-tests.append([5,7])
-tests.append([5,9])
-tests.append([5,10])
-tests.append([10**6, 10**3])
+testNum = 5
+for n in range(1,(testNum*(testNum-1))//2):
+    tests.append([testNum,n])
+tests.append([10**4, 10**3])
 tests.append([10**6, 10**6+10**3])
-if debug: tests = tests[:4]
+if debug: tests = tests[:-2]
 functions = []
 
-
 # method 1
+def trianglePos(n,k=1): # or moveShiftCount
+    t = n*(n-1)//2 # (max) triangle number
+    if k == t: return [n-1,0]
+    elif k == 0: return [0,0]
+    else:
+        lvl = 0 # pyramid level from top
+        lvlMax = t-lvl
+        lvlMin = 1
+        while k < t-lvlMax: 
+            lvl += 1
+            lvlMax -= lvl
+            lvlMin -= (lvl-1)
+        lvl = n-lvl+1 # pyramid level from bottom, start at 1. Y Pos.
+        x = k-lvlMin # X Pos
+    return [lvl, x]
+
+
 def listWithInversions(n,k=1):
-    if k > (n**2-n)/2:
+    if k > n*(n-1)/2:
         Exception('Inversion count %s is too big for list size %s' % (k,n))
         quit()
     m = 1 # modified number count
-    if k == 0: return [x for x in range(n)]
-    elif k == (n**2-n)/2: return [x for x in range(n,0,-1)] # n+1?
+    if k == 0: return [x+1 for x in range(n)]
+    elif k == (n*(n-1))/2: return [x for x in range(n,0,-1)] # n+1?
     else:
         if debug: print(f'm: {m}')
-        while k > m*n-((m*m+m)/2)+1:
+        while k > m*n-m*(m+1)/2+1:
             if debug: print(f'while {k} > {m*n-((m*m+m)/2)+1}')
             m += 1
             if debug: print(f'm: {m}')
-        if debug: print(f'while end {k} > {m*n-((m*m+m)/2)+1}')
-        l = [x for x in range(m,n)]
-        if debug: print('l:', l)
-        move = [x for x in range(m)]
-        if debug: print('move:', move)
+        if debug: print(f'while end {k} <= {m*n-((m*m+m)/2)+1}')
+        l = [x+1 for x in range(m,n)]
+        move = [x+1 for x in range(m)]
+        if debug: print(f'{move} + {l}')
         l = l[:m+1] + move[-1:] + l[m+1:]
         if m > 1: l += move[::-1][1:]
     return l
@@ -93,7 +107,7 @@ for f in functions:
         else:
             print('first values from resulting list:\n',sl[:5])
             print('last values from resultng list:\n',sl[-5:])
-        #print('inversion count check:', countInversions(sl),'\n')
+        print('inversion count check:', countInversions(sl),'\n')
 
 '''
 results
