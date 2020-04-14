@@ -17,7 +17,7 @@ debug = 0
 tests = [\
     [random.randint(1,9) for x in range(6)],\
     [random.randint(1,10**6) for x in range(10**4)],\
-    [random.randint(1,10**6) for x in range(10**6)]]
+    [random.randint(1,10**6) for x in range(10**5)]]
 random.shuffle(tests[0])
 if debug: tests = tests[:1]
 functions = []
@@ -99,7 +99,7 @@ function jako(a,b):
 '''
 
 
-# quick sort is slow ??
+# quick sort
 #sys.setrecursionlimit(10**6)
 def quickSort(l):
     if len(l) > 2:
@@ -119,7 +119,7 @@ def quickSort(l):
         if l[0] < l[1]: return l
         else: return [l[1],l[0]]
     else: return l
-#functions.append(quickSort)
+functions.append(quickSort)
 
 
 # just for fun, bruteforce
@@ -184,6 +184,7 @@ for f in functions:
 '''
 results
 
+mergeSort2.py on a 10**5 list: 0.7s
 
 function: mergeSort
 
@@ -195,6 +196,14 @@ first values from sorted list:
 last values from sorted list:
  [999702, 999703, 999720]
 
+input list length: 10**5
+first two values: [768486, 323726]
+3.1536s
+first values from sorted list:
+ [5, 10, 20]
+last values from sorted list:
+ [999983, 999987, 999994]
+ 
 
 function: quickSort
 
@@ -206,6 +215,13 @@ first values from sorted list:
 last values from sorted list:
  [999702, 999703, 999720]
 
+input list length: 10**5
+first two values: [768486, 323726]
+0.3716s
+first values from sorted list:
+ [5, 10, 20]
+last values from sorted list:
+ [999983, 999987, 999994]
 
 input list length: 10**6
 first two values: [821686, 788396]

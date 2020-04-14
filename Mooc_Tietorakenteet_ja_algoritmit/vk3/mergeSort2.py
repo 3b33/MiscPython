@@ -26,7 +26,7 @@ import random
 import time
 
 # driver code to test the above code 
-arr = [random.randint(1,10**6) for x in range(10**6)]  
+arr = [random.randint(1,10**6) for x in range(10**5)]  
 print ("Given array start is", end="\n")  
 print(arr[:3])
 startTime = time.time()
