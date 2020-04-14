@@ -15,16 +15,53 @@ print('\n')
 debug = 0
 
 tests = [\
-    [random.randint(1,9) for x in range(6)],\
+    [random.randint(1,9) for x in range(7)],\
     [random.randint(1,10**6) for x in range(10**4)],\
     [random.randint(1,10**6) for x in range(10**5)]]
 random.shuffle(tests[0])
 if debug: tests = tests[:1]
 functions = []
 
+# merge sort v2, even though mergeSort2.py works. Just wondered if this could be done a bit different.
+def mergeSort2(inList):
+    l = [[x] for x in inList]
+    if len(l) % 2 == 1:
+        if l[-1] > l[-2]:
+            l[-2] = l[-2]+l[-1]
+        else:
+            l[-2] = l[-1]+l[-2]
+        l.pop(-1)
+    if debug: print('start')
+    while len(l) > 1:
+        if debug: print(l[:10])
+        for i in range(0,len(l)-1,2):
+            a = l[i]
+            b = l[i+1]
+            if debug: print(f'a: {a}, b: {b}')
+            # merge
+            ml = [] # merged list
+            while a != []:
+                if b != []:
+                    if a[0] > b[0]:
+                        ml.append(b[0])
+                        b.pop(0)
+                    else:
+                        ml.append(a[0])
+                        a.pop(0)
+                else:
+                    for rest in a: ml.append(rest)
+                    break
+            if b != []:
+                for rest in b: ml.append(rest)
+            l[i] = ml
+        l = l[::2]
+    return l[0]
+functions.append(mergeSort2)
 
-# merge sort, lomitusjarjestaminen
 
+
+
+# merge sort, lomitusjarjestaminen, v1 too slow
 def splits(l):
     i = math.floor(len(l)/2)
     if len(l) > 2: return [splits(l[:i]), splits(l[i:])]
@@ -69,7 +106,7 @@ def mergeSort(l):
     spl = splits(l)
     if debug: print ('splits: %s' % spl)
     return deepCombine(spl)
-functions.append(mergeSort)
+# functions.append(mergeSort)
 
 
 # school book quick sort version, banned
@@ -103,7 +140,7 @@ function jako(a,b):
 #sys.setrecursionlimit(10**6)
 def quickSort(l):
     if len(l) > 2:
-        if debug: print('samples', samples)
+        #if debug: print('samples', samples)
         left = []
         right = []
         sampleIndex = 0
@@ -153,8 +190,8 @@ functions.append(twoSort)
 
 # python sorted()
 def pythonSorted(l):
-    return l.sort()
-#functions.append(pythonSorted)
+    return sorted(l)
+functions.append(pythonSorted)
 
 
 # tests
@@ -186,24 +223,6 @@ results
 
 mergeSort2.py on a 10**5 list: 0.7s
 
-function: mergeSort
-
-input list length: 10**4
-first two values: [495186, 683245]
-0.125s
-first values from sorted list:
- [233, 353, 518]
-last values from sorted list:
- [999702, 999703, 999720]
-
-input list length: 10**5
-first two values: [768486, 323726]
-3.1536s
-first values from sorted list:
- [5, 10, 20]
-last values from sorted list:
- [999983, 999987, 999994]
- 
 
 function: quickSort
 
@@ -232,21 +251,73 @@ last values from sorted list:
  [999999, 999999, 1000000]
 
 
-function: pythonSorted
+function: mergeSort
 
 input list length: 10**4
-first two values: [140892, 596854]
-0.0028s
-
+first two values: [495186, 683245]
+0.125s
 first values from sorted list:
  [233, 353, 518]
 last values from sorted list:
  [999702, 999703, 999720]
 
+input list length: 10**5
+first two values: [768486, 323726]
+3.1536s
+first values from sorted list:
+ [5, 10, 20]
+last values from sorted list:
+ [999983, 999987, 999994]
+
+function: mergeSort2
+
+input: [3, 8, 2, 8, 8, 5, 2]
+0.0s
+first values from sorted list:
+ [2, 2, 3]
+last values from sorted list:
+ [8, 8, 8]
+
+
+input list length: 10**4
+first two values: [683245, 398056]
+0.1308s
+first values from sorted list:
+ [233, 353, 518]
+last values from sorted list:
+ [999702, 999703, 999720]
+
+
+input list length: 10**5
+first two values: [323726, 277356]
+3.0801s
+first values from sorted list:
+ [5, 10, 20]
+last values from sorted list:
+ [999983, 999987, 999994]
+
+
+function: pythonSorted
+
+input list length: 10**4
+first two values: [140892, 596854]
+0.0028s
+first values from sorted list:
+ [233, 353, 518]
+last values from sorted list:
+ [999702, 999703, 999720]
+
+input list length: 10**5
+first two values: [323726, 277356]
+0.0491s
+first values from sorted list:
+ [5, 10, 20]
+last values from sorted list:
+ [999983, 999987, 999994]
+
 input list length: 10**6
 first two values: [821686, 788396]
 0.6034s
-
 first values from sorted list:
  [2, 3, 3]
 last values from sorted list:
