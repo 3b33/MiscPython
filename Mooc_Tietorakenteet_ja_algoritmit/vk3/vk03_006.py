@@ -40,36 +40,34 @@ def trianglePos(n,k=1): # or moveShiftCount
     elif k == 0: return [0,0]
     else:
         lvl = 0 # pyramid level from top
-        lvlMax = t-lvl
-        lvlMin = 1
-        while k < t-lvlMax: 
+        lvlMax = n-1
+        lvlMin = 0
+        if debug: print(f'in tp k: {k}, t: {t}, levelMax: {lvlMax}')
+        while k < t-lvlMax:
             lvl += 1
             lvlMax -= lvl
             lvlMin -= (lvl-1)
-        lvl = n-lvl+1 # pyramid level from bottom, start at 1. Y Pos.
+        #lvl = n-lvl+1 # pyramid level from bottom, start at 1. Y Pos.
         x = k-lvlMin # X Pos
     return [lvl, x]
 
 
 def listWithInversions(n,k=1):
     if k > n*(n-1)/2:
-        Exception('Inversion count %s is too big for list size %s' % (k,n))
-        quit()
-    m = 1 # modified number count
-    if k == 0: return [x+1 for x in range(n)]
-    elif k == (n*(n-1))/2: return [x for x in range(n,0,-1)] # n+1?
-    else:
-        if debug: print(f'm: {m}')
-        while k > m*n-m*(m+1)/2+1:
-            if debug: print(f'while {k} > {m*n-((m*m+m)/2)+1}')
-            m += 1
-            if debug: print(f'm: {m}')
-        if debug: print(f'while end {k} <= {m*n-((m*m+m)/2)+1}')
-        l = [x+1 for x in range(m,n)]
-        move = [x+1 for x in range(m)]
-        if debug: print(f'{move} + {l}')
-        l = l[:m+1] + move[-1:] + l[m+1:]
-        if m > 1: l += move[::-1][1:]
+        print(f'Inversion count {k} is too big for list size {n}')
+        k = n*(n-1)/2
+        print(f'Using inversion count {k}')
+    tp = trianglePos(n,k)
+    if debug: print(f'triangle position y,x: {tp}')
+    m = tp[0]-1 # move this many digits inverted to the right side
+    if m < 0: m = 0
+    s = tp[1] # shift the last (or only) one this many digits
+    sd = m+1 # digit to shift
+    l = [x+1 for x in range(sd,n)] # list of the "stationary" digits, or the ones shifted to the left side
+    move = [x+1 for x in range(m)][::-1] # list of digits inverted and fully shifted to the right side
+    if debug: print(f'{move} + {[sd]} + {l}')
+    l = l[:s] + [sd] + l[s:]
+    if m > 1: l += move[1:]
     return l
 
 functions.append(listWithInversions)
