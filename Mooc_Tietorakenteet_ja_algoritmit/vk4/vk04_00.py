@@ -42,7 +42,8 @@ def powLen(n):
 if debug: print('\nresults with debug')
 else: print('\nresults')
 for f in functions:
-    print(f'\nfunction: {f.__name__}\n')
+    print(f'\nfunction: {f.__name__}')
+    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'\n')
     for test in tests:
         if len(test) < 10: print(f'input:{test}')
         else:
@@ -51,7 +52,7 @@ for f in functions:
         startTime = time.time()
         sl = f(test)
         print(f'{round(time.time()-startTime,4)}s')
-        if debug or test[0] < 10: print(f'resulting list:{sl}')
+        if debug or len(sl) < 10: print(f'resulting list:{sl}')
         else:
             print(f'first values from resulting list:\n{sl[:5]}')
             print(f'last values from resultng list:\n{sl[-5:]}')
