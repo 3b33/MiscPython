@@ -47,26 +47,36 @@ functions = []
 
 # method 3
 '''
-- instead of popping, combine lists?
-- ie. l = [1,2,2,3,3,4] -> l[:0] + l[5:] after the first sweep
+- splits instead of pops
+- ie. l = [1,2,2,3,3,4] -> l[:0] + l[5:]
 '''
-def delDupsPlus(l):
+def delDupsSplit(l):
     si = 1
     ssi = -1
-    for i in range(si,len(l)):
-        if not skip:
-            if l[i-1] == l[i]:
-                if ssi == -1: ssi = i-1 # split start index
-                sse = i # split end index, to be confirmed
-                skip = True
-            elif ssi != -1:
-                l = l[:ssi] + l[sse:]
-                # WIP
-        else:
-            if l[i] == l[ssi]: sse = i
-            # if not, don't end removal split yet. See example up top.
-            skip = False
-
+    skip = True
+    splitted = True # white lie
+    while splitted:
+        splitted = False
+        if debug: print('while start', si, l)
+        for i in range(si,len(l)):
+            if debug: print('i start', si, i, l)
+            if not skip:
+                if l[i-1] == l[i]:
+                    if ssi == -1:
+                        ssi = i-1 # removable split start index
+                        skip = True
+                    sse = i # removable split end index, to be confirmed
+                    continue
+                elif ssi != -1:
+                    if debug: print('split', si, i, ssi, sse, l)
+                    l = l[:ssi] + l[sse+1:]
+                    splitted = True
+                    break # ?
+            else:
+                if l[i] == l[ssi]: sse = i
+                # if not, don't end removal split yet. See example up top.
+                skip = False
+functions.append(delDupsSplit)
 
 
 # method 2, don't start from beginning after popping, but from i-2
@@ -86,7 +96,7 @@ def delDups(l):
                 if si < 1: si = 1
                 break
     return l
-functions.append(delDups)
+#functions.append(delDups)
 
 
 # method 1, brute, very slow
@@ -103,25 +113,27 @@ def delDupsBrute(l):
                 popped = True
                 break
     return l
-functions.append(delDupsBrute)
+#functions.append(delDupsBrute)
 
 
 # tests
 def powLen(n):
-    if type(n) is list: n = len(n)
-    c = 0
-    if n > 1000:
-        while n >= 10:
-            n /= 10
-            c += 1
-        return (f'10**{str(c)}')
-    else: return n
+    if n:
+        if type(n) is list: n = len(n)
+        c = 0
+        if n > 1000:
+            while n >= 10:
+                n /= 10
+                c += 1
+            return (f'10**{str(c)}')
+        else: return n
+    else: return 0
 
 if debug: print('\nresults with debug')
 else: print('\nresults')
 for f in functions:
     print(f'\nfunction: {f.__name__}')
-    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())+'\n')
+    print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()))
     for test in tests:
         if len(test) < 10: print(f'\ninput:{test}')
         else:
