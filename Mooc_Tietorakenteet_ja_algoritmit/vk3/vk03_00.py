@@ -12,10 +12,10 @@ print('\n')
 debug = 0
 
 tests = []
-test.append([0])
-test.append([0])
-test.append([0])
-#test.append([random.randint(1,9) for x in range(10**2)])
+tests.append([0])
+tests.append([0])
+tests.append([0])
+#tests.append([random.randint(1,9) for x in range(10**2)])
 if debug: tests = tests[:1]
 functions = []
 

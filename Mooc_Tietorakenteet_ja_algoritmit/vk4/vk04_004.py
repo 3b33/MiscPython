@@ -28,9 +28,9 @@ print('\n')
 debug = 0
 
 tests = []
-test.append([1,2,2,3])
-test.append([1,2,3,4])
-test.append([1,2,2,3,3,1])
+tests.append([1,2,2,3])
+tests.append([1,2,3,4])
+tests.append([1,2,2,3,3,1])
 #test.append([random.randint(1,9) for x in range(10**2)])
 if debug: tests = tests[:1]
 functions = []
@@ -46,8 +46,7 @@ def delDups(l):
                 l.pop(0)
                 popped = True
     return l
-
-functions.append(temp)
+functions.append(delDups)
 
 
 # tests
