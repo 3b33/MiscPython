@@ -45,17 +45,19 @@ for f in functions:
     print(f'\nfunction: {f.__name__}')
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())+'\n')
     for test in tests:
-        if len(test) < 10: print(f'input:{test}')
+        if len(test) < 10: print(f'\ninput:{test}')
         else:
             print(f'\ninput list length: {powLen(test)}')
-            print(f'first two values:{test[:2]}')
+            print(f'first values:{test[:5]}')
+            print(f'last values:{test[-5:]}')
+        toTest = test.copy()
         startTime = time.time()
-        sl = f(test)
+        sl = f(toTest)
         print(f'{round(time.time()-startTime,4)}s')
         if debug or len(sl) < 10: print(f'resulting list:{sl}')
         else:
-            print(f'first values from resulting list:\n{sl[:5]}')
-            print(f'last values from resultng list:\n{sl[-5:]}')
+            print(f'first values:{sl[:5]}')
+            print(f'last values:{sl[-5:]}')
         #print(f'length: {powLen(sl)}')
 print('\n')
 

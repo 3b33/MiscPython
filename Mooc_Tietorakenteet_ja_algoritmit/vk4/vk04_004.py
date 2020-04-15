@@ -25,33 +25,51 @@ random.seed(1)
 
 print('\n')
 
-debug = 0
+debug = 1
 
 tests = []
 tests.append([1,2,2,3])
 tests.append([1,2,3,4])
 tests.append([1,2,2,3,3,1])
-#tests.append([random.randint(1,10**9) for x in range(10**4)])
-#tests.append([random.randint(1,10**9) for x in range(10**6)])
-tests.append([])
-r = 1
-for i in range(10**4):
-    if random.random() > .15:
-        r += 1
-    tests[-1].append(r)
-
-tests.append([])
-r = 1
-for i in range(10**6):
-    if random.random() > .15:
-        r += 1
-    tests[-1].append(r)
+tests.append([1])
+for i in range(10**4-1):
+    tests[-1].append(tests[-1][-1]+random.randint(-2,4))
+    if tests[-1][-1] < 1: tests[-1][-1] = 1
+tests.append([1])
+for i in range(10**6-1):
+    tests[-1].append(tests[-1][-1]+random.randint(-2,4))
+    if tests[-1][-1] < 1: tests[-1][-1] = 1
 
 if debug: tests = tests[:-2]
 functions = []
 
 
-# method 2
+
+# method 3
+'''
+- instead of popping, combine lists?
+- ie. l = [1,2,2,3,3,4] -> l[:0] + l[5:] after the first sweep
+'''
+def delDupsPlus(l):
+    si = 1
+    ssi = -1
+    for i in range(si,len(l)):
+        if not skip:
+            if l[i-1] == l[i]:
+                if ssi == -1: ssi = i-1 # split start index
+                sse = i # split end index, to be confirmed
+                skip = True
+            elif ssi != -1:
+                l = l[:ssi] + l[sse:]
+                # WIP
+        else:
+            if l[i] == l[ssi]: sse = i
+            # if not, don't end removal split yet. See example up top.
+            skip = False
+
+
+
+# method 2, don't start from beginning after popping, but from i-2
 def delDups(l):
     if debug: print(l)
     popped = True
@@ -61,6 +79,7 @@ def delDups(l):
         for i in range(si,len(l)):
             if debug: print(f'i: {i}, l: {l}')
             if l[i-1] == l[i]:
+                l.pop(i)
                 l.pop(i-1)
                 popped = True
                 si = i-2
@@ -69,7 +88,8 @@ def delDups(l):
     return l
 functions.append(delDups)
 
-# method 1, brute
+
+# method 1, brute, very slow
 def delDupsBrute(l):
     if debug: print(l)
     popped = True
@@ -78,11 +98,12 @@ def delDupsBrute(l):
         for i in range(1,len(l)):
             if debug: print(f'i: {i}, l: {l}')
             if l[i-1] == l[i]:
+                l.pop(i)
                 l.pop(i-1)
                 popped = True
                 break
     return l
-#functions.append(delDupsBrute)
+functions.append(delDupsBrute)
 
 
 # tests
@@ -102,17 +123,19 @@ for f in functions:
     print(f'\nfunction: {f.__name__}')
     print(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())+'\n')
     for test in tests:
-        if len(test) < 10: print(f'input:{test}')
+        if len(test) < 10: print(f'\ninput:{test}')
         else:
             print(f'\ninput list length: {powLen(test)}')
             print(f'first values:{test[:5]}')
+            print(f'last values:{test[-5:]}')
+        toTest = test.copy()
         startTime = time.time()
-        sl = f(test)
+        sl = f(toTest)
         print(f'{round(time.time()-startTime,4)}s')
         if debug or len(test) < 10: print(f'resulting list:{sl}')
         else:
-            print(f'first values from resulting list:\n{sl[:5]}')
-            print(f'last values from resultng list:\n{sl[-5:]}')
+            print(f'first values:{sl[:5]}')
+            print(f'last values:{sl[-5:]}')
         print(f'length: {powLen(sl)}')
 print('\n')
 
@@ -120,68 +143,61 @@ print('\n')
 results
 
 function: delDups
-2020-04-15 10:57:25
+2020-04-15 11:42:28
 
 input:[1, 2, 2, 3]
 0.0s
-resulting list:[1, 2, 3]
-length: 3
+resulting list:[1, 3]
+length: 2
 input:[1, 2, 3, 4]
 0.0s
 resulting list:[1, 2, 3, 4]
 length: 4
 input:[1, 2, 2, 3, 3, 1]
 0.0s
-resulting list:[1, 2, 3, 1]
-length: 4
+resulting list:[]
+length: 0
 
 input list length: 10**4
-first values:[1, 2, 3, 4, 5]
-0.009s
-first values from resulting list:
-[1, 2, 3, 4, 5]
-last values from resultng list:
-[8472, 8473, 8474, 8475, 8476]
+first values:[1, 1, 3, 7, 11]
+last values:[10029, 10032, 10034, 10033, 10031]
+0.0081s
+first values:[3, 7, 11, 15, 11]
+last values:[10029, 10032, 10034, 10033, 10031]
 length: 10**3
 
 input list length: 10**6
-first values:[2, 3, 4, 4, 5]
-75.7846s
-first values from resulting list:
-[2, 3, 4, 5, 6]
-last values from resultng list:
-[849778, 849779, 849780, 849781, 849782]
+first values:[1, 1, 2, 1, 1]
+last values:[999898, 999901, 999901, 999899, 999900]
+123.3043s
+first values:[1, 5, 6, 9, 12]
+last values:[999899, 999897, 999898, 999899, 999900]
 length: 10**5
 
-
 function: delDupsBrute
+2020-04-15 11:44:31
 
 input:[1, 2, 2, 3]
-0.0s
-resulting list:[1, 2, 3]
-length: 3
+0.0059s
+resulting list:[1, 3]
+length: 2
 input:[1, 2, 3, 4]
 0.0s
 resulting list:[1, 2, 3, 4]
 length: 4
 input:[1, 2, 2, 3, 3, 1]
 0.0s
-resulting list:[1, 2, 3, 1]
-length: 4
-
+resulting list:[]
+length: 0
 
 input list length: 10**4
-first values:[1, 2, 3, 4, 5]
-0.9215s
-first values from resulting list:
-[1, 2, 3, 4, 5]
-last values from resultng list:
-[8472, 8473, 8474, 8475, 8476]
+first values:[1, 1, 3, 7, 11]
+last values:[10029, 10032, 10034, 10033, 10031]
+0.885s
+first values:[3, 7, 11, 15, 11]
+last values:[10029, 10032, 10034, 10033, 10031]
 length: 10**3
 
-
-input list length: 10**6
-first values:[2, 3, 4, 4, 5]
-# could not bother waiting. At least 3 minutes.
+input list length: 10**6 # way too slow to wait
 
 '''
