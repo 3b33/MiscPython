@@ -58,24 +58,24 @@ def toPow(n):
     while n >= 10:
         n /= 10
         c += 1
-    return str('10**'+str(c))
+    return (f'10**{str(c)}')
 
 if debug: print('\nresults with debug')
 else: print('\nresults')
 for f in functions:
-    print('\nfunction: '+f.__name__+'\n')
+    print(f'\nfunction: {f.__name__}\n')
     for test in tests:
-        if len(test) < 10: print('input:', test)
+        if len(test) < 10: print(f'input:{test}')
         else:
-            print('\ninput list length: '+ toPow(len(test)))
-            print('first two values:',test[:2])
+            print(f'\ninput list length: {toPow(len(test))}')
+            print(f'first two values:{test[:2]}')
         startTime = time.time()
-        sl = (f(test))
-        print('%ss\n' % round(time.time()-startTime,4))
-        if debug or test[0] < 10: print('resulting list:', sl)
+        print(f(test))
+        print(f'{round(time.time()-startTime,4)}\n')
+        if debug or test[0] < 10: print(f'resulting list:{sl}')
         else:
-            print('first values from resulting list:\n',sl[:5])
-            print('last values from resultng list:\n',sl[-5:])
+            print(f'first values from resulting list:\n{sl[:5]}')
+            print(f'last values from resultng list:\n{sl[-5:]}')
         print(f'length: {len(sl)}')
 '''
 
