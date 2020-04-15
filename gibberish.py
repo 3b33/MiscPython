@@ -3,7 +3,6 @@ import os
 import re
 
 # add families = same surname to some folks with logical gender / age distribution
-# Why one letter 'words' in gibber sentences?
 
 # abcdefghijklmnopqrstuvwxyz (åäö) (ü)
 
@@ -156,7 +155,7 @@ for g in range(60):
 print()
 
 # print names
-nameCols = 4
+nameCols = 2
 for nameIndex in range(0,len(names)-(len(names)%nameCols),nameCols):
 	nameRow = ''
 	for nameColIndex in range(nameCols):
