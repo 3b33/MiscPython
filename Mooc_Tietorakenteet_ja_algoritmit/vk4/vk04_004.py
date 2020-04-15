@@ -25,26 +25,29 @@ random.seed(1)
 
 print('\n')
 
-debug = 0
+debug = 1
 
 tests = []
 tests.append([1,2,2,3])
 tests.append([1,2,3,4])
 tests.append([1,2,2,3,3,1])
 #test.append([random.randint(1,9) for x in range(10**2)])
-if debug: tests = tests[:1]
+#if debug: tests = tests[:1]
 functions = []
 
 
-# method 1
+# method 1, brute
 def delDups(l):
+    if debug: print(l)
     popped = True
     while popped:
         popped = False
         for i in range(1,len(l)):
+            if debug: print(f'i: {i}, l: {l}')
             if l[i-1] == l[i]:
-                l.pop(0)
+                l.pop(i-1)
                 popped = True
+                break
     return l
 functions.append(delDups)
 
@@ -67,13 +70,13 @@ for f in functions:
             print('\ninput list length: '+ toPow(len(test)))
             print('first two values:',test[:2])
         startTime = time.time()
-        print(f(test))
+        sl = (f(test))
         print('%ss\n' % round(time.time()-startTime,4))
         if debug or test[0] < 10: print('resulting list:', sl)
         else:
             print('first values from resulting list:\n',sl[:5])
             print('last values from resultng list:\n',sl[-5:])
-
+        print(f'length: {len(sl)}')
 '''
 
 
