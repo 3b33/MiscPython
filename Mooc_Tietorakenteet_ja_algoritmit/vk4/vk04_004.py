@@ -25,14 +25,20 @@ random.seed(1)
 
 print('\n')
 
-debug = 1
+debug = 0
 
 tests = []
 tests.append([1,2,2,3])
 tests.append([1,2,3,4])
 tests.append([1,2,2,3,3,1])
-#test.append([random.randint(1,9) for x in range(10**2)])
-#if debug: tests = tests[:1]
+#tests.append([random.randint(1,10**9) for x in range(10**4)])
+#tests.append([random.randint(1,10**9) for x in range(10**6)])
+tests.append([])
+for i in range(10**4)):
+
+    tests[-1].append(r)
+
+if debug: tests = tests[:-2]
 functions = []
 
 
@@ -53,12 +59,15 @@ functions.append(delDups)
 
 
 # tests
-def toPow(n):
+def powLen(n):
+    if type(n) is list: n = len(n)
     c = 0
-    while n >= 10:
-        n /= 10
-        c += 1
-    return (f'10**{str(c)}')
+    if n > 1000:
+        while n >= 10:
+            n /= 10
+            c += 1
+        return (f'10**{str(c)}')
+    else: return n
 
 if debug: print('\nresults with debug')
 else: print('\nresults')
@@ -67,16 +76,18 @@ for f in functions:
     for test in tests:
         if len(test) < 10: print(f'input:{test}')
         else:
-            print(f'\ninput list length: {toPow(len(test))}')
+            print(f'\n\ninput list length: {powLen(test)}')
             print(f'first two values:{test[:2]}')
         startTime = time.time()
-        print(f(test))
-        print(f'{round(time.time()-startTime,4)}\n')
+        sl = f(test)
+        print(f'{round(time.time()-startTime,4)}s')
         if debug or test[0] < 10: print(f'resulting list:{sl}')
         else:
             print(f'first values from resulting list:\n{sl[:5]}')
             print(f'last values from resultng list:\n{sl[-5:]}')
-        print(f'length: {len(sl)}')
+        print(f'length: {powLen(sl)}')
+print('\n')
+
 '''
 
 

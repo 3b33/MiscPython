@@ -29,12 +29,15 @@ functions.append(temp)
 
 
 # tests
-def toPow(n):
+def powLen(n):
+    if type(n) is list: n = len(n)
     c = 0
-    while n >= 10:
-        n /= 10
-        c += 1
-    return (f'10**{str(c)}')
+    if n > 1000:
+        while n >= 10:
+            n /= 10
+            c += 1
+        return (f'10**{str(c)}')
+    else: return n
 
 if debug: print('\nresults with debug')
 else: print('\nresults')
@@ -43,18 +46,19 @@ for f in functions:
     for test in tests:
         if len(test) < 10: print(f'input:{test}')
         else:
-            print(f'\ninput list length: {toPow(len(test))}')
+            print(f'\ninput list length: {powLen(test)}')
             print(f'first two values:{test[:2]}')
         startTime = time.time()
-        print(f(test))
-        print(f'{round(time.time()-startTime,4)}\n')
+        sl = f(test)
+        print(f'{round(time.time()-startTime,4)}s')
         if debug or test[0] < 10: print(f'resulting list:{sl}')
         else:
             print(f'first values from resulting list:\n{sl[:5]}')
             print(f'last values from resultng list:\n{sl[-5:]}')
+        #print(f'length: {powLen(sl)}')
+print('\n')
 
-
-'''d
+'''
 
 
 '''
