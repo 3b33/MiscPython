@@ -6,3 +6,4 @@
 
     for i in range(1,len(l)):
         if l[i-1] == l[i]:
+
