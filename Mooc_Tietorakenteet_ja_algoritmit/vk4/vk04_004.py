@@ -54,28 +54,27 @@ def delDupsSplit(l):
     si = 1
     ssi = -1
     skip = True
-    splitted = True # white lie
-    while splitted:
-        splitted = False
-        if debug: print('while start', si, l)
-        for i in range(si,len(l)):
-            if debug: print('i start', si, i, l)
-            if not skip:
-                if l[i-1] == l[i]:
-                    if ssi == -1:
-                        ssi = i-1 # removable split start index
-                        skip = True
-                    sse = i # removable split end index, to be confirmed
-                    continue
-                elif ssi != -1:
-                    if debug: print('split', si, i, ssi, sse, l)
-                    l = l[:ssi] + l[sse+1:]
-                    splitted = True
-                    break # ?
-            else:
-                if l[i] == l[ssi]: sse = i
-                # if not, don't end removal split yet. See example up top.
-                skip = False
+    if debug: print('while start', si, l)
+    for i in range(si,len(l)):
+        si += 1
+        if debug: print('i start', si, i, l)
+        if not skip:
+            if l[i-1] == l[i]:
+                if i == len(l): return []
+                if ssi == -1:
+                    ssi = i-1 # removable split start index
+                    skip = True
+                sse = i # removable split end index, to be confirmed
+                continue
+            elif ssi != -1:
+                if debug: print('split', si, i, ssi, sse, l)
+                l = delDupsSplit(l[:ssi] + l[sse+1:])
+                si -= sse-ssi # is this correct?
+                break # ?
+        else:
+            if l[i] == l[ssi]: sse = i
+            # if not, don't end removal split yet. See example up top.
+            skip = False
 functions.append(delDupsSplit)
 
 
