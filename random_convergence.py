@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 def diceThrowsToError(goal=1/6,error=.05):
     dt = [0,0,0,0,0,0] # dice throws
     dt[rnd.randint(0,5)] += 1 # prevent div by zero
-    while not goal-goal*error <= dt[0]/sum(dt) <= goal+goal*error:
+    while not goal-goal*(error/2) <= dt[0]/sum(dt) <= goal+goal*(error/2):
         dt[rnd.randint(0,5)] += 1
         #if sum(dt) % 10**5 == 0:
         #    print(sum(dt),round(goal,3),error,round(dt[0]/sum(dt[1:]),6))
