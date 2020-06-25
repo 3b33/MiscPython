@@ -12,7 +12,6 @@ def diceThrowsToError(goal=1/6,error=.05):
     #print(dt)
     return sum(dt)
 
-
 if __name__ == "__main__":
     errors = [.01]
     while errors[-1] < .99: errors.append(errors[-1]+1/50)
