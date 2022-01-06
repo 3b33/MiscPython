@@ -15,15 +15,16 @@ for i in range(400):
             continue
         prevIsEven = listList[-1][di-1] % 2 == 0
         nextIsEven = listList[-1][di+1] % 2 == 0
-        if prevIsEven and nextIsEven: thisRow.append(listList[-1][di])
-        elif prevIsEven or nextIsEven:
+        if not prevIsEven and nextIsEven:
             plus = listList[-1][di] + 1
             if plus == 10: plus = 0
             thisRow.append(plus)
-        else:
+        elif prevIsEven and not nextIsEven:
             minus = listList[-1][di] - 1
             if minus == -1: minus = 9
             thisRow.append(minus)
+        else:
+            thisRow.append(listList[-1][di])
     #print(''.join([str(x) for x in thisRow[:178]]))
     listList.append(thisRow)
 
