@@ -2,8 +2,8 @@ from mpmath import mp
 from PIL import Image, ImageColor
 from datetime import datetime
 
-height = 200
-width = 200
+height = 4096
+width = 512
 mp.dps = (height + width)
 piString = str(mp.pi)
 piString = piString.replace('.', '')
@@ -24,9 +24,9 @@ for i in range(height):
         plus = same + 1
         if plus == 10: plus = 0
         if minus == -1: minus = 9
-        if not prevIsEven and nextIsEven: thisRow.append(plus)
-        elif prevIsEven and not nextIsEven: thisRow.append(minus)
-        else: thisRow.append(same)
+        if prevIsEven and nextIsEven: thisRow.append(same)
+        elif prevIsEven or nextIsEven: thisRow.append(plus)
+        else: thisRow.append(minus)
     #print(''.join([str(x) for x in thisRow[:width]]))
     listList.append(thisRow)
 
