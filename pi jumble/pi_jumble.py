@@ -2,14 +2,14 @@ from mpmath import mp
 from PIL import Image, ImageColor
 from datetime import datetime
 
-height = 4096
+height = 512
 width = 512
 mp.dps = (height + width)
 piString = str(mp.pi)
 piString = piString.replace('.', '')
 pia = [int(x) for x in piString]
 
-print(''.join([str(x) for x in pia[:width]]))
+#print(''.join([str(x) for x in pia[:width]]))
 listList = [pia]
 for i in range(height):
     thisRow = []
@@ -24,8 +24,8 @@ for i in range(height):
         plus = same + 1
         if plus == 10: plus = 0
         if minus == -1: minus = 9
-        if prevIsEven and nextIsEven: thisRow.append(same)
-        elif prevIsEven or nextIsEven: thisRow.append(plus)
+        if not prevIsEven and nextIsEven: thisRow.append(same)
+        elif prevIsEven and nextIsEven: thisRow.append(same)
         else: thisRow.append(minus)
     #print(''.join([str(x) for x in thisRow[:width]]))
     listList.append(thisRow)
@@ -49,7 +49,5 @@ for y in range(height):
     for x in range(width):
         if row[x] % 2 == 0:
             im.putpixel((x,y), (1))
-
-print(len(listList))
 
 im.save('pi jumble/images//Pi Jumble %s.png' % timestamp)
