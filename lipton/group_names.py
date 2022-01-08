@@ -6,7 +6,7 @@ import pyperclip
 # abcdefghijklmnopqrstuvwxyz (åäö) (ü)
 
 v = 'aeiou' #vowels
-k ='hjklmnprstv'
+k ='dghjklmnprstv'
 #k = 'bcdfghjklmnpqrstvwxz' #consonants
 
 # lv? 
@@ -149,13 +149,16 @@ template = ['kvvkv','vkkvk','kvkkvk','kvkvvk'] # name templates
 # kvkkvk
 
 templates = []
-while len(templates) < 10000:
+while len(templates) < 100000:
 	templates = templates + template
 print(templates)
 
 names = ''
 for g in templates:
-	names += (group_name(g)+'\n')
+	tempname = group_name(g)
+	if 'g' in tempname or 'd' in tempname:
+		# names += (group_name(g)+'\n')
+		names += (tempname+'\n')
 
 #for n in names:
 	#print(n+'\n\n')
