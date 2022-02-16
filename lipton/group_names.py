@@ -1,7 +1,7 @@
-import random
 import os
+import random
 import re
-import pyperclip
+from googlesearch import search
 
 # abcdefghijklmnopqrstuvwxyz (åäö) (ü)
 
@@ -44,7 +44,7 @@ banned_ends = 'bcdfghjklmpqrtvwxz'
 rare_letters = { # this defines the propability % of these characters
 'b':10,
 'c':8,
-'d':15,
+'d':100,
 'f':8,
 'g':10,
 'j':60,
@@ -141,7 +141,7 @@ def gibberName():
 	#names.append(group_name(r(template))+midname+' '+group_name(r(snt)))
 	#print(newName)
 
-template = ['kvvkv','vkkvk','kvkkvk','kvkvvk'] # name templates
+# template = ['kvvkv','vkkvk','kvkkvk','kvkvvk'] # name templates
 
 # likeit
 # kvkvvk
@@ -149,21 +149,31 @@ template = ['kvvkv','vkkvk','kvkkvk','kvkvvk'] # name templates
 # kvkkvk
 
 templates = []
-while len(templates) < 100000:
-	templates = templates + template
-print(templates)
+while len(templates) < 100:
+	templates = templates + [consVocals(5,8,6)]
+# print(templates)
 
-names = ''
-for g in templates:
-	tempname = group_name(g)
-	if 'g' in tempname or 'd' in tempname:
-		# names += (group_name(g)+'\n')
-		names += (tempname+'\n')
+# why did I want d or g??
+# names = ''
+# for g in templates:
+# 	tempname = group_name(g)
+# 	if 'g' in tempname or 'd' in tempname:
+# 		# names += (group_name(g)+'\n')
+# 		names += (tempname+'\n')
+
+for structure in templates:
+	name = group_name(structure)
+	nameSearches = search(name, 5)
+	nameSearchStr = ''
+	for nameSearch in nameSearches:
+		nameSearchStr += nameSearch
+	if name not in nameSearchStr:
+		print(name)
 
 #for n in names:
 	#print(n+'\n\n')
-pyperclip.copy(names)
-print('Copied to clipboard.')
+# pyperclip.copy(names)
+# print('Copied to clipboard.')
 
 # print names
 # nameCols = 4
