@@ -1,7 +1,7 @@
 import os
 import random
 import re
-from googlesearch import search
+from datetime import datetime
 
 # abcdefghijklmnopqrstuvwxyz (åäö) (ü)
 
@@ -14,19 +14,19 @@ banned_combos ={
 'a':'eoy',
 'b':'cdfgjmnpqvwxz',
 'c':'bcfgjkmnpqstvwxyz',
-'d':'bcfgjtxz',
+'d':'bcfgjkcnptvxz',
 'e':'auojv', # a?
 'f':'bcdfghjmnqsvwxyz',
 'g':'bcfgj',
 'h':'fhjkmnprsvw', # m?
 'i':'aejouy', # should prevent ia and io only in the start of a name.
 'j':'', # check v
-'k':'bcfghjlmnpqtvwxz', # t?
-'l':'bnqx',
-'m':'fhjklnprstvwv',
+'k':'bcdfghjlmnpqtvwxz', # t?
+'l':'bnqrx',
+'m':'dfghjklnprstvwv',
 'n':'hmqvwxz',
 'o':'aeuy',
-'p':'bfghjkmnqvwx',
+'p':'bdfghjkmnqvwx',
 'q':'gjkmnqtvwxyz',
 'r':'rx',
 's':'hjlrxz',
@@ -44,7 +44,7 @@ banned_ends = 'bcdfghjklmpqrtvwxz'
 rare_letters = { # this defines the propability % of these characters
 'b':10,
 'c':8,
-'d':100,
+'d':20,
 'f':8,
 'g':10,
 'j':60,
@@ -149,26 +149,14 @@ def gibberName():
 # kvkkvk
 
 templates = []
-while len(templates) < 100:
-	templates = templates + [consVocals(5,8,6)]
+while len(templates) < 2000:
+	templates = templates + [consVocals(5,12,7)]
 # print(templates)
 
-# why did I want d or g??
-# names = ''
-# for g in templates:
-# 	tempname = group_name(g)
-# 	if 'g' in tempname or 'd' in tempname:
-# 		# names += (group_name(g)+'\n')
-# 		names += (tempname+'\n')
 
+names = []
 for structure in templates:
-	name = group_name(structure)
-	nameSearches = search(name, 5)
-	nameSearchStr = ''
-	for nameSearch in nameSearches:
-		nameSearchStr += nameSearch
-	if name not in nameSearchStr:
-		print(name)
+	names.append(group_name(structure)+ ' Group')
 
 #for n in names:
 	#print(n+'\n\n')
@@ -176,10 +164,14 @@ for structure in templates:
 # print('Copied to clipboard.')
 
 # print names
-# nameCols = 4
-# for nameIndex in range(0,len(names)-(len(names)%nameCols),nameCols):
-#	nameRow = ''
-#	for nameColIndex in range(nameCols):
-#		nameRow += names[nameIndex+nameColIndex].ljust(25, ' ')
-#	print(nameRow)
-
+with open('lipton//group names %s.txt' % datetime.now().strftime("%Y-%m-%d %H.%M.%S"), 'w+') as f:
+	nameCols = 4
+	for nameIndex in range(0,len(names)-(len(names)%nameCols),nameCols):
+		nameRow = ''
+		for nameColIndex in range(nameCols):
+			nameRow += names[nameIndex+nameColIndex].ljust(25, ' ')
+		f.write(nameRow + '\n')
+		# print(nameRow)
+		if nameIndex % 50 == 0:
+			f.write('\n')
+			# print('')

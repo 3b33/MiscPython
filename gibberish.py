@@ -18,21 +18,21 @@ banned_combos ={
 'a':'eoy',
 'b':'cdfgjmnpqvwxz',
 'c':'bcfgjkmnpqstvwxyz',
-'d':'bcfgjtxz',
+'d':'bcfgjknptvxz',
 'e':'auojv', # a?
 'f':'bcdfghjmnqsvwxyz',
 'g':'bcfgj',
 'h':'fhjkmnprsvw', # m?
 'i':'aejouy', # should prevent ia and io only in the start of a name.
 'j':'', # check v
-'k':'bcfghjlmnpqtvwxz', # t?
-'l':'bnqx',
-'m':'fhjklnprstvwv',
+'k':'bcdfghjlmnpqtvwxz', # t?
+'l':'bnqrx',
+'m':'dfghjklnprstvwv',
 'n':'hmqvwxz',
 'o':'aeuy',
-'p':'bfghjkmnqvwx',
+'p':'bdfghjkmnqvwx',
 'q':'gjkmnqtvwxyz',
-'r':'rx',
+'r':'rx',	# m?
 's':'hjlrxz',
 't':'bdgjknpqx',
 'u':'aejvy',
