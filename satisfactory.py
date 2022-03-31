@@ -64,7 +64,7 @@ def dive(d, v):
     if d in part:
         for i in range(v):
             for dp in part[d]:
-                if dp 
+                #if dp 
                 dive(dp, part[d][dp])
     else:
         return d, v
