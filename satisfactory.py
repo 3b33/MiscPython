@@ -67,23 +67,27 @@ part = {
     }
 }
 
+print('blaa' * 5)
 
-def dive(d, v):
+def dive(d, v, l):
+    print('%s%s' % ('- ' * (l-1), d))
     if d in part:
         for dp in part[d]:
-            dive(dp, part[d][dp] * v)
+            dive(dp, part[d][dp] * v, l+1)
     else:
-        if d in answer:
-            answer[d] += v
+        if d in total:
+            total[d] += v
         else:
-            answer[d] = v
+            total[d] = v
 
-answer = {}
+
+total = {}
+pprint(part.keys())
 p = input('Part: ')
-n = input('#: ')
+n = int(input('#: '))
 if p in part:
-    dive(p, n)
-    pprint(answer)
+    dive(p, n, 1)
+    pprint(total)
 else:
     print('what\'s that')
 
