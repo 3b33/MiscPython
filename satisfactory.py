@@ -1,10 +1,12 @@
+from pprint import pprint
+
 # add HFrame
 part = {
     'Motor': {
         'Rotor': 1, 
         'Stator': 1
     },
-    'EBeam': {
+    'EIBeam': {
         'SBeam': 4,
         'Con': 5
     },
@@ -37,11 +39,11 @@ part = {
     },
     'Rotor': {
         'Rod': 5,
-        'Nails': 25
+        'Screw': 25
     },
     'RIPlate': {
         'Plate': 6,
-        'Nails': 12
+        'Screw': 12
     },
     'MFrame': {
         'RIPlate': 3,
@@ -51,31 +53,37 @@ part = {
         'Circuit': 10,
         'Cable': 9,
         'Plastic': 18,
-        'Nails': 52
+        'Screw': 52
     },
     'Circuit': {
         'CSheet': 2,
         'Plastic': 4
+    },
+    'HFrame': {
+        'MFrame': 5,
+        'Spipe' : 15,
+        'EIBeam': 5,
+        'Screw': 100
     }
 }
 
 
 def dive(d, v):
     if d in part:
-        for i in range(v):
-            for dp in part[d]:
-                #if dp 
-                dive(dp, part[d][dp])
+        for dp in part[d]:
+            dive(dp, part[d][dp] * v)
     else:
-        return d, v
+        if d in answer:
+            answer[d] += v
+        else:
+            answer[d] = v
 
 answer = {}
 p = input('Part: ')
 n = input('#: ')
 if p in part:
-    for pp in part[p]:
-        print(dive(pp, part[p][pp]))
-
+    dive(p, n)
+    pprint(answer)
 else:
     print('what\'s that')
 
