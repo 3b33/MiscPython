@@ -24,7 +24,7 @@ for row in sata_txt:
     row = row.rstrip('\n')
     row_list = row.split(', ')
     number = row_list[0][:2]
-    person = row_list[0][6:]
+    person = row_list[0][6:].split(' (')[0]  # some have explainers like (himym) or (f1)
     items = row_list[1:]
     sata[number] = {}
     sata[number]['person'] = person
@@ -37,21 +37,48 @@ sata_txt.close()
 
 #pprint(sata)
 
-print('enter = quit\n')
-correct = 0
-all = 0
+print('q = quit\n')
+answers = []
+hint = ''
 
 while 1:
-    question = str(randint(0,10000)).zfill(4)
+    if hint == '':
+        question = str(randint(0,10000)).zfill(4)
     inp = input('%s: ' % question)
-    if inp == '': break
+    if inp == '':   # give a hint
+        number1 = question[:2]
+        if hint == '':
+            person = sata[number1]['person']
+            first_name = person.split(' ')[0]
+            last_name = person.split(' ')[1]
+            hint = '%s%s %s%s' % (first_name[0], '.' * (len(first_name) - 1), last_name[0], '.' * (len(last_name) - 1))
+            print(hint)
+            continue
+        else:
+            person_l = list(sata[number1]['person'])
+            hint_l = list(hint)
+            new_hint_pos = randint(0,len(hint_l) - 1)
+            hint_l[new_hint_pos] = person_l[new_hint_pos]
+            hint = ''.join(hint_l)
+            print(hint)
+            continue
+        continue
     number1 = question[:2]
     number2 = question[2:]
     print('%s %s' % (sata[number1]['person'], sata[number2]['items'][0]))
     if len(sata[number2]['items']) > 1: print(sata[number2]['items'][1])
-    if sata[number1]['person'] in inp:
+    if sata[number1]['person'] in inp and hint == '':
         print('Hyvä!!')
-        correct += 1
-    all += 1
-    print('%s/%s %s%' % (correct, all, round(correct/all*100,0)))
+        if answers == '1'*10: print('Läpi meni!!!')
+        answers.append(1)
+    else:
+        if '(' in sata[number1]['person']:
+            print(sata[number1])
+        if answers == '0'*10: print('Feilure...')
+        answers.append(0)
+    if len(answers) > 10: answers.pop(0)
+    #print('%s/%s %d%' % (answers.count(1), len(answers), round(answers.count(1)/len(answers)*100)))
+    print(''.join([str(a) for a in answers]))
     print()
+    hint = ''
+    if inp == 'q': break
