@@ -69,12 +69,12 @@ while 1:
     if len(sata[number2]['items']) > 1: print(sata[number2]['items'][1])
     if sata[number1]['person'] in inp and hint == '':
         print('Hyvä!!')
-        if answers == '1'*10: print('Läpi meni!!!')
+        if answers.count(1) == 10: print('Läpi meni!!!')
         answers.append(1)
     else:
         if '(' in sata[number1]['person']:
             print(sata[number1])
-        if answers == '0'*10: print('Feilure...')
+        if answers.count(0) == 10: print('Feilure...')
         answers.append(0)
     if len(answers) > 10: answers.pop(0)
     #print('%s/%s %d%' % (answers.count(1), len(answers), round(answers.count(1)/len(answers)*100)))
