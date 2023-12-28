@@ -54,12 +54,14 @@ while 1:
             hint = '%s%s %s%s' % (first_name[0], '.' * (len(first_name) - 1), last_name[0], '.' * (len(last_name) - 1))
             print(hint)
             continue
-        else:
+        elif '.' in hint:
             person_l = list(sata[number1]['person'])
             hint_l = list(hint)
-            new_hint_pos = randint(0,len(hint_l) - 1)
-            hint_l[new_hint_pos] = person_l[new_hint_pos]
-            hint = ''.join(hint_l)
+            hidden = hint.count('.')
+            while hint.count('.') == hidden:
+                new_hint_pos = randint(0,len(hint_l) - 1)
+                hint_l[new_hint_pos] = person_l[new_hint_pos]
+                hint = ''.join(hint_l)
             print(hint)
             continue
         continue
@@ -71,14 +73,21 @@ while 1:
         print('Hyvä!!')
         if answers.count(1) == 10: print('Läpi meni!!!')
         answers.append(1)
-    else:
+    elif inp != 'q':
         if '(' in sata[number1]['person']:
             print(sata[number1])
-        if answers.count(0) == 10: print('Feilure...')
-        answers.append(0)
-    if len(answers) > 10: answers.pop(0)
+        if hint == '':
+            print('Feilure... 2 = V btw')
+            print()
+            answers = []
+            continue
+        elif answers != []:
+            answers.pop(0)
+    # if len(answers) > 10: answers.pop(0)
     #print('%s/%s %d%' % (answers.count(1), len(answers), round(answers.count(1)/len(answers)*100)))
-    print(''.join([str(a) for a in answers]))
+    if '2' in question and 'v' not in inp.lower():
+        print('!!! N = V !!!')
+    print(len(answers)) # this turned into 'correct answers'
     print()
     hint = ''
     if inp == 'q': break
