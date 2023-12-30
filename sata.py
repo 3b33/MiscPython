@@ -40,6 +40,7 @@ sata_txt.close()
 print('q = quit\n')
 answers = []
 hint = ''
+mods = ['', 'q']
 
 while 1:
     if hint == '':
@@ -69,15 +70,15 @@ while 1:
     number2 = question[2:]
     print('%s %s' % (sata[number1]['person'], sata[number2]['items'][0]))
     if len(sata[number2]['items']) > 1: print(sata[number2]['items'][1])
-    if sata[number1]['person'] in inp and hint == '':
+    if sata[number1]['person'].lower() in inp.lower() and hint == '':
         print('Hyvä!!')
-        if answers.count(1) == 10: print('Läpi meni!!!')
+        if len(answers) == 10: print('Läpi meni!!!')
         answers.append(1)
     elif inp != 'q':
         if '(' in sata[number1]['person']:
             print(sata[number1])
         if hint == '':
-            print('Feilure... 2 = V btw')
+            print('Feilure...')
             print()
             answers = []
             continue
@@ -85,7 +86,7 @@ while 1:
             answers.pop(0)
     # if len(answers) > 10: answers.pop(0)
     #print('%s/%s %d%' % (answers.count(1), len(answers), round(answers.count(1)/len(answers)*100)))
-    if '2' in question and 'v' not in inp.lower():
+    if '2' in question and inp not in mods and 'v' not in inp.lower():
         print('!!! N = V !!!')
     print(len(answers)) # this turned into 'correct answers'
     print()
