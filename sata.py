@@ -1,5 +1,7 @@
 from pprint import pprint
 from random import randint
+import os.path
+import json
 
 def numToCons(n):
     r = ''
@@ -29,7 +31,7 @@ for row in sata_txt:
         items = row_list[1:]
         sata[number] = {}
         sata[number]['person'] = person
-        sata[number]['items'] = items
+        sata[number]['item'] = items[0]
 sata_txt.close()
 
 #for n in range(100):
@@ -45,59 +47,87 @@ sata_txt.close()
 #     randints.pop(i)
 # quit()
 
+if not os.path.isfile('sata_answers.json'):
+    answers = {}
+else:
+    with open('sata_answers.json', 'r') as sata_answers:
+        answers = json.load(sata_answers)
 
-print('q = quit\n')
-answers = []
+# todo: read anwers from json if it exists
+
+print('q = save and quit, s = save, enter = hint\n')
 hint = ''
-mods = ['', 'q']
+mods = ['', 'q', 's','debug']    # all possible non-answer inputs
+
 
 while 1:
     if hint == '':
-        question = str(randint(0,10000)).zfill(4)
-    inp = input('%s: ' % question)
+        looping = True
+        while looping:
+            if randint(0,1): mode = 'item'
+            else: mode = 'person'
+            chance = 100
+            question = str(randint(0,99)).zfill(2)
+            if question in answers:
+                if mode in answers[question]:
+                    chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
+            if randint(0,100) < chance:
+                looping = False
+            print('dev: chance for %s %s was %d %%' % (mode, question, chance))
+        if question not in answers:
+            print('First question for %s' % question)
+        elif mode not in answers[question]:
+            print('First %s question for %s' %(mode, question))
+        else:
+            print(answers[question][mode])
+        
+    inp = input('%s %s: ' % (mode.title(), question))
     if inp == '':   # give a hint
-        number1 = question[:2]
         if hint == '':
-            person = sata[number1]['person']
-            first_name = person.split(' ')[0]
-            last_name = person.split(' ')[1]
-            hint = '%s%s %s%s' % (first_name[0], '.' * (len(first_name) - 1), last_name[0], '.' * (len(last_name) - 1))
+            if mode == 'person':
+                person = sata[question]['person']
+                first_name = person.split(' ')[0]
+                last_name = person.split(' ')[1]
+                hint = '%s%s %s%s' % (first_name[0], '.' * (len(first_name) - 1), last_name[0], '.' * (len(last_name) - 1))
+            else: 
+                item = sata[question]['item']
+                hint = '%s%s' % (item[0], '.' * (len(item) - 1))
             print(hint)
             continue
         elif '.' in hint:
-            person_l = list(sata[number1]['person'])
+            if mode == 'person': correct_l = list(sata[question]['person'])
+            else: correct_l = list(sata[question]['item'])
             hint_l = list(hint)
             hidden = hint.count('.')
             while hint.count('.') == hidden:
                 new_hint_pos = randint(0,len(hint_l) - 1)
-                hint_l[new_hint_pos] = person_l[new_hint_pos]
+                hint_l[new_hint_pos] = correct_l[new_hint_pos]
                 hint = ''.join(hint_l)
             print(hint)
             continue
         continue
-    number1 = question[:2]
-    number2 = question[2:]
-    print('%s %s' % (sata[number1]['person'], sata[number2]['items'][0]))
-    if len(sata[number2]['items']) > 1: print(sata[number2]['items'][1])
-    if sata[number1]['person'].lower() in inp.lower() and hint == '':
-        print('Hyvä!!')
-        answers.append(1)
-        if len(answers) == 10: print('Läpi meni!!!')
-    elif inp != 'q':
-        if '(' in sata[number1]['person']:
-            print(sata[number1])
-        if hint == '':
-            print('Feilure...')
-            print()
-            answers = []
-            continue
-        elif answers != []:
-            answers.pop(0)
-    # if len(answers) > 10: answers.pop(0)
-    #print('%s/%s %d%' % (answers.count(1), len(answers), round(answers.count(1)/len(answers)*100)))
-    if '2' in question and inp not in mods and 'v' not in inp.lower():
-        print('!!! N = V !!!')
-    print(len(answers)) # this turned into 'correct answers'
-    print()
-    hint = ''
-    if inp == 'q': break
+    if inp not in mods:
+        if question not in answers: answers[question] = {}
+        if mode not in answers[question]: answers[question][mode] = []
+        if sata[question][mode].lower() in inp.lower() and hint == '':
+            print('Hyvä!!')
+            answers[question][mode].append(1)
+        else:
+            if '(' in sata[question][mode]:
+                print(sata[question])
+            if hint == '':
+                print('Feilure...')
+            answers[question][mode].append(0)
+        if len(answers[question][mode]) > 5: answers[question][mode].pop(0)
+        if '2' in question and inp not in mods and 'v' not in inp.lower(): print('!!! N = V !!!')
+        if question in answers and mode in answers[question]:
+            print('%d %%' % round(answers[question][mode].count(1) / len(answers[question][mode]) * 100))
+        hint = ''
+        print(sata[question][mode])
+        print()
+    elif inp == 'q': break
+    elif inp == 'debug':
+        print(answers)
+    with open('sata_answers.json', 'w') as sata_answers:
+          sata_answers.write(json.dumps(answers, indent=4))
+
