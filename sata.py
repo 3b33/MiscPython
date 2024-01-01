@@ -31,7 +31,7 @@ for row in sata_txt:
         items = row_list[1:]
         sata[number] = {}
         sata[number]['person'] = person
-        sata[number]['item'] = items[0]
+        sata[number]['item'] = items[0].replace('?', '')
 sata_txt.close()
 
 #for n in range(100):
@@ -57,7 +57,7 @@ else:
 
 print('q = save and quit, s = save, enter = hint\n')
 hint = ''
-mods = ['', 'q', 's','debug']    # all possible non-answer inputs
+mods = ['', 'q', 's','info']    # all possible non-answer inputs
 
 
 while 1:
@@ -71,7 +71,7 @@ while 1:
             if question in answers:
                 if mode in answers[question]:
                     chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
-            if randint(0,100) < chance:
+            if randint(0,100) <= chance:
                 looping = False
             print('dev: chance for %s %s was %d %%' % (mode, question, chance))
         if question not in answers:
@@ -126,8 +126,22 @@ while 1:
         print(sata[question][mode])
         print()
     elif inp == 'q': break
-    elif inp == 'debug':
-        print(answers)
+    elif inp == 'info': # does not work
+        print('%d numeroa arvattu' % len(answers.keys()))
+        filled = 0
+        correct = 0
+        wrong = 0
+        for answer in answers.keys():
+            if 'person' in answers[answer]:
+                filled += len(answers[answer]['person'])
+                correct += answers[answer]['person'].count(1)
+                wrong += answers[answer]['person'].count(0)
+            if 'item' in answers[answer]:
+                filled += len(answers[answer]['item'])
+                correct += answers[answer]['item'].count(1)
+                wrong += answers[answer]['item'].count(0)
+        print('%d / 1000 (%d %%) täytetty' % (filled, round(filled/1000 * 100)))
+        print('%d oikein, %d väärin' %(correct, wrong))
     with open('sata_answers.json', 'w') as sata_answers:
           sata_answers.write(json.dumps(answers, indent=4))
 
