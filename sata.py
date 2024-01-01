@@ -22,13 +22,14 @@ sata_txt = open('sata.txt', 'r', encoding='ISO-8859-1')
 sata = {}
 for row in sata_txt:
     row = row.rstrip('\n')
-    row_list = row.split(', ')
-    number = row_list[0][:2]
-    person = row_list[0][6:].split(' (')[0]  # some have explainers like (himym) or (f1)
-    items = row_list[1:]
-    sata[number] = {}
-    sata[number]['person'] = person
-    sata[number]['items'] = items
+    if row != '':
+        row_list = row.split(', ')
+        number = row_list[0][:2]
+        person = row_list[0][6:].split(' (')[0]  # some have explainers like (himym) or (f1)
+        items = row_list[1:]
+        sata[number] = {}
+        sata[number]['person'] = person
+        sata[number]['items'] = items
 sata_txt.close()
 
 #for n in range(100):
@@ -36,6 +37,14 @@ sata_txt.close()
 #    print('%s %s' %(zp, numToCons(zp)))
 
 #pprint(sata)
+
+randints = [x for x in range(100)]
+while randints != []:
+    i = randint(0, len(randints) - 1)
+    print(str(randints[i]).zfill(2) + ' ')
+    randints.pop(i)
+quit()
+
 
 print('q = quit\n')
 answers = []
@@ -72,8 +81,8 @@ while 1:
     if len(sata[number2]['items']) > 1: print(sata[number2]['items'][1])
     if sata[number1]['person'].lower() in inp.lower() and hint == '':
         print('Hyvä!!')
-        if len(answers) == 10: print('Läpi meni!!!')
         answers.append(1)
+        if len(answers) == 10: print('Läpi meni!!!')
     elif inp != 'q':
         if '(' in sata[number1]['person']:
             print(sata[number1])
