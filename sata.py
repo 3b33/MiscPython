@@ -38,12 +38,12 @@ sata_txt.close()
 
 #pprint(sata)
 
-randints = [x for x in range(100)]
-while randints != []:
-    i = randint(0, len(randints) - 1)
-    print(str(randints[i]).zfill(2) + ' ')
-    randints.pop(i)
-quit()
+# randints = [x for x in range(100)]
+# while randints != []:
+#     i = randint(0, len(randints) - 1)
+#     print(str(randints[i]).zfill(2) + ' ')
+#     randints.pop(i)
+# quit()
 
 
 print('q = quit\n')
