@@ -59,6 +59,24 @@ print('q = save and quit, s = save, enter = hint\n')
 hint = ''
 mods = ['', 'q', 's','info']    # all possible non-answer inputs
 
+def info():
+    #print('%d numeroa arvattu' % len(answers.keys()))
+    filled = 0
+    correct = 0
+    wrong = 0
+    for answer in answers.keys():
+        if 'person' in answers[answer]:
+            filled += len(answers[answer]['person'])
+            correct += answers[answer]['person'].count(1)
+            wrong += answers[answer]['person'].count(0)
+        if 'item' in answers[answer]:
+            filled += len(answers[answer]['item'])
+            correct += answers[answer]['item'].count(1)
+            wrong += answers[answer]['item'].count(0)
+    print('%d / 1000 (%d %%) täytetty' % (filled, round(filled/1000 * 100)))
+    print('%d oikein, %d väärin' %(correct, wrong))
+
+info()
 
 while 1:
     if hint == '':
@@ -121,27 +139,13 @@ while 1:
         if len(answers[question][mode]) > 5: answers[question][mode].pop(0)
         if '2' in question and inp not in mods and 'v' not in inp.lower(): print('!!! N = V !!!')
         if question in answers and mode in answers[question]:
-            print('%d %%' % round(answers[question][mode].count(1) / len(answers[question][mode]) * 100))
+            print('%d %% oikein' % round(answers[question][mode].count(1) / len(answers[question][mode]) * 100))
         hint = ''
         print(sata[question][mode])
         print()
     elif inp == 'q': break
     elif inp == 'info': # does not work
-        print('%d numeroa arvattu' % len(answers.keys()))
-        filled = 0
-        correct = 0
-        wrong = 0
-        for answer in answers.keys():
-            if 'person' in answers[answer]:
-                filled += len(answers[answer]['person'])
-                correct += answers[answer]['person'].count(1)
-                wrong += answers[answer]['person'].count(0)
-            if 'item' in answers[answer]:
-                filled += len(answers[answer]['item'])
-                correct += answers[answer]['item'].count(1)
-                wrong += answers[answer]['item'].count(0)
-        print('%d / 1000 (%d %%) täytetty' % (filled, round(filled/1000 * 100)))
-        print('%d oikein, %d väärin' %(correct, wrong))
+        info()
     with open('sata_answers.json', 'w') as sata_answers:
           sata_answers.write(json.dumps(answers, indent=4))
 
