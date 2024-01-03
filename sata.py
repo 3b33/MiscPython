@@ -76,7 +76,6 @@ print('q = save and quit, s = save, enter = hint\n')
 hint = ''
 mods = ['', 'q', 's','info']    # all possible non-answer inputs
 prev = ''
-inp = 'xx'
 
 info()
 
@@ -87,12 +86,14 @@ while 1:
             if randint(0,1): mode = 'item'
             else: mode = 'person'
             chance = 100
-            question = str(randint(0,99)).zfill(2)
+            prev = question
+            while prev == question:
+                question = str(randint(0,99)).zfill(2)
             if question in answers:
                 if mode in answers[question]:
                     chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
             rnd = randint(0,100)
-            if str(rnd).zfill(2) != prev and rnd <= chance:
+            if rnd <= chance:
                 looping = False
             print('dev: chance for %s %s was %d %%' % (mode, question, chance))
         if question not in answers:
@@ -101,7 +102,6 @@ while 1:
             print('First %s question for %s' %(mode, question))
         else:
             print(answers[question][mode])
-    prev = inp
     inp = input('%s %s: ' % (mode.title(), question))
     if inp == '':   # give a hint
         if hint == '':
