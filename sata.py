@@ -55,10 +55,6 @@ else:
 
 # todo: read anwers from json if it exists
 
-print('q = save and quit, s = save, enter = hint\n')
-hint = ''
-mods = ['', 'q', 's','info']    # all possible non-answer inputs
-
 def info():
     #print('%d numeroa arvattu' % len(answers.keys()))
     filled = 0
@@ -75,6 +71,11 @@ def info():
             wrong += answers[answer]['item'].count(0)
     print('%d / 1000 (%d %%) täytetty' % (filled, round(filled/1000 * 100)))
     print('%d oikein, %d väärin' %(correct, wrong))
+
+print('q = save and quit, s = save, enter = hint\n')
+hint = ''
+mods = ['', 'q', 's','info']    # all possible non-answer inputs
+prev = ''
 
 info()
 
