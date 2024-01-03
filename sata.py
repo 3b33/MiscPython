@@ -87,13 +87,14 @@ while 1:
             if randint(0,1): mode = 'item'
             else: mode = 'person'
             chance = 100
-            prev = question
-            while prev == question:
-                question = str(randint(0,99)).zfill(2)
+            question = str(randint(0,99)).zfill(2)
             if question in answers:
                 if mode in answers[question]:
                     chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
-            rnd = randint(0,100)
+            prev = question
+            rnd = prev
+            while str(rnd).zfill(2) == prev:
+                rnd = randint(0,99)
             if rnd <= chance:
                 looping = False
             print('dev: chance for %s %s was %d %%' % (mode, question, chance))
