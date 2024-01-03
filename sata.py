@@ -75,15 +75,12 @@ def info():
 print('q = save and quit, s = save, enter = hint\n')
 hint = ''
 mods = ['', 'q', 's','info']    # all possible non-answer inputs
-prev = -1
-question = '-1'
 
 info()
 
 while 1:
     if hint == '':
         looping = True
-        prev = int(question)
         while looping:
             if randint(0,1): mode = 'item'
             else: mode = 'person'
@@ -92,9 +89,7 @@ while 1:
             if question in answers:
                 if mode in answers[question]:
                     chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
-            rnd = int(prev)
-            while int == prev:
-                rnd = randint(0,99)
+            rnd = randint(0,99)
             if rnd <= chance:
                 looping = False
             print('dev: chance for %s %s was %d %%' % (mode, question, chance))
