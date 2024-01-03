@@ -92,12 +92,13 @@ while 1:
             rnd = randint(0,99)
             if rnd <= chance:
                 looping = False
-            print('dev: chance for %s %s was %d %%' % (mode, question, chance))
+            #print('dev: chance for %s %s was %d %%' % (mode, question, chance))
         if question not in answers:
             print('First question for %s' % question)
         elif mode not in answers[question]:
             print('First %s question for %s' %(mode, question))
         else:
+            print('Chance for %s %s was %d %%' % (mode, question, chance))
             print(answers[question][mode])
     inp = input('%s %s: ' % (mode.title(), question))
     if inp == '':   # give a hint
