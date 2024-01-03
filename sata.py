@@ -76,6 +76,7 @@ print('q = save and quit, s = save, enter = hint\n')
 hint = ''
 mods = ['', 'q', 's','info']    # all possible non-answer inputs
 prev = ''
+question = ''
 
 info()
 
