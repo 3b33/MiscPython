@@ -89,7 +89,8 @@ while 1:
             if question in answers:
                 if mode in answers[question]:
                     chance = max(answers[question][mode].count(0) / len(answers[question][mode]) * 100, 1)
-            if randint(0,100) <= chance:
+            rnd = randint(0,100)
+            if str(rnd).zfill(2) != prev and rnd <= chance:
                 looping = False
             print('dev: chance for %s %s was %d %%' % (mode, question, chance))
         if question not in answers:
@@ -98,7 +99,7 @@ while 1:
             print('First %s question for %s' %(mode, question))
         else:
             print(answers[question][mode])
-        
+    prev = inp
     inp = input('%s %s: ' % (mode.title(), question))
     if inp == '':   # give a hint
         if hint == '':
