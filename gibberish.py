@@ -28,7 +28,7 @@ banned_combos ={
 'k':'bcdfghjlmnpqtvwxz', # t?
 'l':'bnqrx',
 'm':'dfghjklnprstvwv',
-'n':'hmqvwxz',
+'n':'hmqrvwxz',
 'o':'aeuy',
 'p':'bdfghjkmnqvwx',
 'q':'gjkmnqtvwxyz',
